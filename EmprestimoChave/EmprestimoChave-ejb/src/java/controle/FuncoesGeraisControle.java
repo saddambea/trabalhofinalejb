@@ -18,12 +18,12 @@ import modelo.Usuario;
  */
 @ManagedBean
 @SessionScoped
-public class FuncoesGeraisBean {
+public class FuncoesGeraisControle {
 
     /**
-     * Creates a new instance of FuncoesGeraisBean
+     * Creates a new instance of FuncoesGeraisControle
      */
-    public FuncoesGeraisBean() {
+    public FuncoesGeraisControle() {
     }
     
     public String getDataHora(Date data){

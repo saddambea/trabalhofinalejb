@@ -25,10 +25,10 @@ import modelo.TipoUsuario;
  */
 @ManagedBean
 @SessionScoped
-public class UsuarioBean {
+public class UsuarioControle {
 
     /**
-     * Creates a new instance of UsuarioBean
+     * Creates a new instance of UsuarioControle
      */
     private Usuario usuario = new Usuario();    
     private Usuario usuarioLogado = new Usuario();
@@ -48,18 +48,16 @@ public class UsuarioBean {
         this.salvo = salvo;
     }
 
-    public UsuarioBean() {
+    public UsuarioControle() {
     }
 
     public List<Usuario> getUsuarios() {
         usuarios = JPADAO.getInstancia().listarTodos(Usuario.class);
         return usuarios;
     }
-    
-    
 
     public void setUsuarios(List<Usuario> usuarios) {
-        UsuarioBean.usuarios = usuarios;
+        UsuarioControle.usuarios = usuarios;
     }
 
     public Usuario getUsuario() {        
@@ -97,7 +95,7 @@ public class UsuarioBean {
         try {
             JPADAO.getInstancia().salvar(usuario);
             this.salvo=true;
-            this.usuario = FuncoesGeraisBean.getUsuarioByCodigo(usuario.getCodigo());
+            this.usuario = FuncoesGeraisControle.getUsuarioByCodigo(usuario.getCodigo());
             
         } catch (Exception e) {
             this.salvo=false;

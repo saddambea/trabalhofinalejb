@@ -22,7 +22,7 @@ import javax.persistence.Query;
  */
 @ManagedBean
 @SessionScoped
-public class TipoUsuarioBean {
+public class TipoUsuarioControle {
 
     /**
      * Creates a new instance of CategoriaBean
@@ -40,7 +40,7 @@ public class TipoUsuarioBean {
         this.salvo = salvo;
     }
 
-    public TipoUsuarioBean() {
+    public TipoUsuarioControle() {
         super();
     }
 
@@ -53,7 +53,7 @@ public class TipoUsuarioBean {
     }
 
     public void setTipoUsuarios(List<TipoUsuario> tipousuarios) {
-        TipoUsuarioBean.tipousuarios = tipousuarios;
+        TipoUsuarioControle.tipousuarios = tipousuarios;
     }
 
     public TipoUsuario getTipoUsuario() {

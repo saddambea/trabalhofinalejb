@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controle;
+package converter;
 
+import controle.UsuarioControle;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -18,7 +19,7 @@ public class UsuarioConverter implements Converter {
 // pegar o ID da chave, recebido pelo ‘value'
         int idUsuario = Integer.parseInt(value);
 // buscar a chave no ChaveBean, via método estático
-        Usuario usu = UsuarioBean.buscarUsuario(idUsuario);
+        Usuario usu = UsuarioControle.buscarUsuario(idUsuario);
         return usu;
     }
 

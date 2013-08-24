@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controle;
+package converter;
 
+import controle.ChaveControle;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,8 +18,8 @@ public class ChaveConverter implements Converter {
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 // pegar o ID da chave, recebido pelo ‘value'
         int idChave = Integer.parseInt(value);
-// buscar a chave no ChaveBean, via método estático
-        Chave cat = ChaveBean.buscarChave(idChave);
+// buscar a chave no ChaveControle, via método estático
+        Chave cat = ChaveControle.buscarChave(idChave);
         return cat;
     }
 

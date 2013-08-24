@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controle;
+package converter;
 
+import controle.TipoUsuarioControle;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -18,7 +19,7 @@ public class TipoUsuarioConverter implements Converter {
 // pegar o ID do tipo, recebido pelo ‘value'
         int idTipo = Integer.parseInt(value);
 // buscar a categoria no CategoriaBean, via método estático
-        TipoUsuario tip = TipoUsuarioBean.buscarTipoUsuario(idTipo);
+        TipoUsuario tip = TipoUsuarioControle.buscarTipoUsuario(idTipo);
         return tip;
     }
 

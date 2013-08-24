@@ -26,7 +26,7 @@ import modelo.Chave;
  */
 @ManagedBean
 @SessionScoped
-public class DevolucaoBean {
+public class DevolucaoControle {
 
     /**
      * Creates a new instance of EmprestimoBean
@@ -52,18 +52,18 @@ public class DevolucaoBean {
         this.salvo = salvo;
     }
 
-    public DevolucaoBean() {
+    public DevolucaoControle() {
         super();
     }
 
     public List<Emprestimo> getEmprestimos() {
         Query cons = JPADAO.getInstancia().getEM().createQuery("Select c from Emprestimo c where c.dataDevolucao is null");
-        DevolucaoBean.emprestimos = cons.getResultList();
-        return  DevolucaoBean.emprestimos;
+        DevolucaoControle.emprestimos = cons.getResultList();
+        return  DevolucaoControle.emprestimos;
     }
 
     public void setEmprestimos(List<Emprestimo> emprestimos) {
-        DevolucaoBean.emprestimos = emprestimos;
+        DevolucaoControle.emprestimos = emprestimos;
     }
     
 
@@ -76,11 +76,11 @@ public class DevolucaoBean {
     }
 
     public List<Chave> getChaves() {        
-        return DevolucaoBean.chaves;
+        return DevolucaoControle.chaves;
     }
 
     public void setChaves(List<Chave> chaves) {
-        DevolucaoBean.chaves = chaves;
+        DevolucaoControle.chaves = chaves;
     }
 
     
@@ -170,7 +170,7 @@ public class DevolucaoBean {
     }
 
     public static void setEmprestimoId(int emprestimoId) {
-        DevolucaoBean.emprestimoId = emprestimoId;
+        DevolucaoControle.emprestimoId = emprestimoId;
     }
 
     public String getMensagem() {
@@ -186,7 +186,7 @@ public class DevolucaoBean {
     }
 
     public static void setDevolucoes(List<Emprestimo> devolucoes) {
-        DevolucaoBean.devolucoes = devolucoes;
+        DevolucaoControle.devolucoes = devolucoes;
     }
 
     

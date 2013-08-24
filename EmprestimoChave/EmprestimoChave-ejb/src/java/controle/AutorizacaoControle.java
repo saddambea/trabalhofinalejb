@@ -28,7 +28,7 @@ import modelo.Autorizacao;
  */
 @ManagedBean
 @SessionScoped
-public class AutorizacaoBean {
+public class AutorizacaoControle {
 
     /**
      * Creates a new instance of UsuarioBean
@@ -51,7 +51,7 @@ public class AutorizacaoBean {
         this.salvo = salvo;
     }
 
-    public AutorizacaoBean() {
+    public AutorizacaoControle() {
     }
 
     public List<Autorizacao> getAutorizacoes() {
@@ -61,7 +61,7 @@ public class AutorizacaoBean {
     }
 
     public void setAutorizacoes(List<Autorizacao> autorizacoes) {
-        AutorizacaoBean.autorizacoes = autorizacoes;
+        AutorizacaoControle.autorizacoes = autorizacoes;
     }
 
     public Autorizacao getAutorizacao() {        
@@ -110,7 +110,7 @@ public class AutorizacaoBean {
             Query cons = JPADAO.getInstancia().getEM().createQuery("Select a from Autorizacao a where a.usuario = :pusuario and  a.chave = :pchave and (a.dataFim is null or a.dataFim <= :pdata)" ); 
             cons.setParameter("pusuario", this.autorizacao.getUsuario());
             cons.setParameter("pchave", this.autorizacao.getChave());
-            cons.setParameter("pdata", FuncoesGeraisBean.getDataHoraAtual());
+            cons.setParameter("pdata", FuncoesGeraisControle.getDataHoraAtual());
             
             if(cons.getResultList().isEmpty())
               JPADAO.getInstancia().salvar(autorizacao);
