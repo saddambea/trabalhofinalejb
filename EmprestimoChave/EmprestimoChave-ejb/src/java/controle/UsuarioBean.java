@@ -55,6 +55,8 @@ public class UsuarioBean {
         usuarios = JPADAO.getInstancia().listarTodos(Usuario.class);
         return usuarios;
     }
+    
+    
 
     public void setUsuarios(List<Usuario> usuarios) {
         UsuarioBean.usuarios = usuarios;

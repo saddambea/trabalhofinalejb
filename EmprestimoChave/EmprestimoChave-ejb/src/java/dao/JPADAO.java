@@ -1,9 +1,11 @@
 package dao;
 
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 /**
@@ -11,47 +13,15 @@ import javax.persistence.Query;
  * Permite a manipulação básica de quaisquer tipos de entidades.
  * @author Fernando dos Santos
  */
+@Stateless
 public class JPADAO {
 
-    private EntityManagerFactory emf;
+   
+    @PersistenceContext
     private EntityManager em;
-    private static JPADAO instancia;
     
-    private JPADAO(){}
-    
-    public static JPADAO getInstancia(){
-        if(instancia ==null){
-            throw new IllegalStateException("JPADAO não inicializado");
-        }
-        return instancia;
-    }
-    /**
-     * Antes de usar o JPADAO, é necessário inicializá-lo através
-     * deste método, passando o nome da unidade de persistência.
-     * @param nomeUnidadePersistencia nome da unidade de persistência.
-     */
-    public static void inicializar(String nomeUnidadePersistencia) {
-        instancia = new JPADAO();
-        
-        instancia.emf = Persistence.createEntityManagerFactory(nomeUnidadePersistencia);
-        instancia.em = instancia.emf.createEntityManager();
-        System.out.println("JPADAO inicializado");
-    }
 
-    /**
-     * Após usar o JPADAO, é necessário fechá-lo para liberar recursos.
-     */
-    public void fechar() {
-        if (em != null){
-            em.close();
-        }
-        if (emf != null){
-            emf.close();
-        }
-        System.out.println("JPADAO fechado");
-    }
-
-    /**
+     /**
      * Salva uma entidade.
      * Este método utiliza a operação merge() da unidade de persistência. 
      * Logo, pode-se passar entidades em estado NEW, MANAGED, ou DETACHED.
