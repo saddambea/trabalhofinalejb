@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import modelo.Usuario;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -23,8 +25,7 @@ import modelo.TipoUsuario;
  *
  * @author dflenzi
  */
-@ManagedBean
-@SessionScoped
+@Stateful
 public class UsuarioControle {
 
     /**
@@ -38,6 +39,8 @@ public class UsuarioControle {
     private String mensagem;
     private List<Autorizacao> autorizacoes = new ArrayList<Autorizacao>();
     
+    @EJB
+    private JPADAO conexao;
     
 
     public boolean isSalvo() {
@@ -52,7 +55,7 @@ public class UsuarioControle {
     }
 
     public List<Usuario> getUsuarios() {
-        usuarios = JPADAO.getInstancia().listarTodos(Usuario.class);
+        usuarios = conexao.listarTodos(Usuario.class);
         return usuarios;
     }
 
@@ -76,13 +79,13 @@ public class UsuarioControle {
 
     public String editar(Usuario oUsuario) {     
         
-        this.usuario = JPADAO.getInstancia().procurar(Usuario.class, oUsuario.getId());
+        this.usuario = conexao.procurar(Usuario.class, oUsuario.getId());
         salvo = false;
         return "usuariocad";
     }
 
     public String excluir(Usuario oUsuario) {
-        JPADAO.getInstancia().excluir(oUsuario);
+        conexao.excluir(oUsuario);
         return "usuariolist";
     }
 
@@ -93,7 +96,7 @@ public class UsuarioControle {
 
     public String salvar() {
         try {
-            JPADAO.getInstancia().salvar(usuario);
+            conexao.salvar(usuario);
             this.salvo=true;
             this.usuario = FuncoesGeraisControle.getUsuarioByCodigo(usuario.getCodigo());
             
@@ -114,29 +117,27 @@ public class UsuarioControle {
           this.novo();
         }        
         
-        Query cons = JPADAO.getInstancia().getEM().createQuery("select t from TipoUsuario t");
-        if (cons.getResultList().isEmpty()){
+        if (conexao.listarTodos(Usuario.class).isEmpty()){
             //Adicionar automaticamente os tipos de 
             TipoUsuario tipoA = new TipoUsuario("Administrador", true, true, true, true, true, true);
-            JPADAO.getInstancia().salvar(tipoA);
+            conexao.salvar(tipoA);
             TipoUsuario tipoB = new TipoUsuario("Balconista", false, true, true, true, true, true);
-            JPADAO.getInstancia().salvar(tipoB);
+            conexao.salvar(tipoB);
             TipoUsuario tipoU = new TipoUsuario("Usuário", false, false, false, false, false, true);
-            JPADAO.getInstancia().salvar(tipoU);
+            conexao.salvar(tipoU);
             
             //Adicionar automaticamente usuarios
             
             
-            cons = JPADAO.getInstancia().getEM().createQuery("select u from Usuario u");
-            if(cons.getResultList().isEmpty()){
+            if(conexao.listarTodos(Usuario.class).isEmpty()){
                 Usuario usuario =  new Usuario(111111, "Administrador", "administrador@adm.com.br", 123, tipoA);
-                JPADAO.getInstancia().salvar(usuario);
+                conexao.salvar(usuario);
                 
                 usuario =  new Usuario(222222, "Balconista", "balconista@furb.com.br", 456, tipoB);
-                JPADAO.getInstancia().salvar(usuario);
+                conexao.salvar(usuario);
                 
                 usuario =  new Usuario(333333, "Usuario1", "usuario@furb.com.br", 789, tipoU);
-                JPADAO.getInstancia().salvar(usuario);
+                conexao.salvar(usuario);
             }
         }
         
@@ -166,7 +167,7 @@ public class UsuarioControle {
     }
 
     public static Usuario buscarUsuario(int idUsuario) {
-        return JPADAO.getInstancia().procurar(Usuario.class, idUsuario);
+        return conexao.procurar(Usuario.class, idUsuario);
     }
 
     public String manterAutorizacao(Usuario oUsuario){
