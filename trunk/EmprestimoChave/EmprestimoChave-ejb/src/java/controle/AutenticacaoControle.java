@@ -5,6 +5,7 @@
 package controle;
 
 import dao.JPADAO;
+import java.lang.String;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -13,7 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.Query;
 import modelo.TipoUsuario;
 import modelo.Usuario;
-
+import java.lang.String;
 /**
  *
  * @author dflenzi
@@ -59,7 +60,7 @@ public class AutenticacaoControle {
             }
         }
         
-        autenticar(usuario.getCodigo(), usuario.getSenha());
+        return autenticar(usuario.getCodigo(), usuario.getSenha());
     }
  
 // gets e sets    /*** Creates a new instance of AutenticacaoControle*/
@@ -96,9 +97,12 @@ public class AutenticacaoControle {
     
     public static Usuario getUsuario(Integer codigo, Integer senha){
         Query cons;
-        cons = JPADAO.getInstancia().getEM().createQuery("Select u from Usuario u Where u.codigo = :pcodigo and u.senha = :psenha");
-        cons.setParameter("pcodigo", codigo);
-        cons.setParameter("psenha", senha);
+        
+        
+        String[] foo = {Integer.tos, "", "", ""}; 
+        
+        Usuario user = conexao.buscar(Usuario.class,, new String["0","1"]);                                      
+                                      
         try {
             Usuario user =  (Usuario) cons.getSingleResult();            
             if(user !=null)

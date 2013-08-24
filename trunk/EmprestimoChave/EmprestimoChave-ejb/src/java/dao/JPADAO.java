@@ -1,5 +1,7 @@
 package dao;
 
+import com.sun.tools.jxc.gen.config.Classes;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -83,5 +85,22 @@ public class JPADAO {
      */
     public EntityManager getEM(){
         return em;
+    }
+    
+    public <T> Object buscar(Class<T> classe, String[] fields, String[] values){
+        String  sqlWhere = "";
+        
+        Query cons = em.createQuery("Select o from " + classe.getName() + sqlWhere) ;        
+        for(int i = 0; i<fields.length -1; i++){
+            if(sqlWhere.isEmpty()){
+                sqlWhere = "Where " + fields[i] + " :"+fields[i]; 
+            }
+            else{
+                sqlWhere = " and " + fields[i] + " :"+fields[i]; 
+            }
+            cons.setParameter(fields[i], values[i]);
+        }
+        
+        return  cons.getSingleResult();    
     }
 }
