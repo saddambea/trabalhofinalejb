@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Listagem de Contatos</title>        
+    </h:head>
+    <h:body>
+        <ui:composition template="template.xhtml">
+            <ui:define name="conteudo">
+
+                <p:panel header="Listagem de autorizações">
+                    <h:form>
+                        <p:dataTable value="#{usuarioBean.autorizacoes}" var="umAutorizacao"
+                                     emptyMessage="Sem autorizações">
+                            <p:column headerText="Usuário">
+                                <h:outputText value="#{umAutorizacao.usuario.nome}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Chave">
+                                <h:outputText value="#{umAutorizacao.chave.sigla}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Início">
+                                <h:outputText value="#{funcoesGeraisBean.getData(umAutorizacao.dataInicio)}"/>
+                            </p:column>
+
+                            <p:column headerText="Fim">
+                                <h:outputText value="#{funcoesGeraisBean.getData(umAutorizacao.dataFim)}"/>
+                            </p:column>
+
+                            <p:column headerText="Ações">
+                                <p:commandButton image="ui-icon ui-icon-pencil" title="Editar" value="Editar"
+                                                 ajax="false" action="#{autorizacaoBean.editar(umAutorizacao)}"/>
+                            </p:column>                
+                        </p:dataTable>
+                        <p:outputPanel layout="block" 
+                                       style="margin: auto; width:40%">
+
+                            <p:commandButton value="Nova" ajax="false" action="#{autorizacaoBean.novo(usuarioBean.usuario)}"/>
+                        </p:outputPanel>                
+                    </h:form>
+                </p:panel>
+            </ui:define>
+        </ui:composition>                  
+    </h:body>
+</html>
+

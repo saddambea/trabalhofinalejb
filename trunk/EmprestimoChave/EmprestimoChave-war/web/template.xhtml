@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>#{i18n['template.panel.title']}</title>
+        <link rel="stylesheet" href="js/estilos.css"/>
+    </h:head>
+    <h:body>        
+        <h:panelGroup rendered="#{not autenticacaoAutorizacaoBean.autorizado}">                
+            <p:panel id="panellogin" header="Login" style="width: 600px;margin-left: auto;margin-right: auto" >
+                <h:form >            
+                    <h:panelGrid columns="3" >
+                        <h:outputText value="#{i18n['template.login.input.codigo']}"/>
+                        <p:inputText id="codigo" required="true" requiredMessage="#{i18n['template.login.mensagem.codigo']}" value="#{autenticacaoAutorizacaoBean.usuario.codigo}"/>                                         
+                        <p:message for="codigo"/>
+
+                        <h:outputText value="#{i18n['template.login.input.senha']}"/>
+                        <p:password id="senha" required="true" requiredMessage="#{i18n['template.login.mensagem.senha']}" value="#{autenticacaoAutorizacaoBean.usuario.senha}"/>                                         
+                        <p:message for="senha"/>
+                    </h:panelGrid>
+                    <h:outputText value="Usuários default"/>
+                    <hr/>
+                    <p:panel >
+                        <h:panelGrid columns="1" >
+                            <h:outputText value="Administrador.Código: 111111 e senha: 111111"/>
+                            <h:outputText value="Balconista.Código: 222222 e senha: 222222"/>
+                            <h:outputText value="Usuário.Código: 333333 e senha: 333333"/>
+                        </h:panelGrid>
+                    </p:panel>    
+                    <hr/>
+                    <p:outputPanel layout="block" 
+                                   style="margin: auto; width:40%">
+                        <p:commandButton value="#{i18n['template.login.botao.entrar']}" ajax="false" action="#{autenticacaoAutorizacaoBean.login()}"/>
+                    </p:outputPanel>   
+                </h:form>
+
+            </p:panel>    
+        </h:panelGroup> 
+
+        <h:panelGroup rendered="#{autenticacaoAutorizacaoBean.autorizado}">
+
+            <div id="cabecalho" style="width: 100%">
+                <h:form>
+                    <p:menubar>
+                        <p:submenu label="#{i18n['template.submenu.cadastro.title']}">
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.autorizacao']}" ajax="false" action="#{autorizacaoBean.novo()}" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permAutorizacao}"/>
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.chaves']}" ajax="false" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permChave}" action="#{chaveBean.novo()}"/>
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.usuarios']}" ajax="false" action="#{usuarioBean.novo()}" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permUsuario}"/>
+                        </p:submenu>
+                        <p:submenu label="#{i18n['template.submenu.manutencao.title']}">
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.autorizacao']}" ajax="false" url="faces/manutencaoautorizacao.xhtml" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permAutorizacao}"/>                        
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.emprestimos']}" ajax="false" action="#{emprestimoBean.emprestimo()}" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permEmprestimo}"/>                        
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.devolucao']}" ajax="false" action="#{devolucaoBean.devolucao()}" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permDevolucao}"/>                        
+                        </p:submenu>            
+
+                        <p:submenu label="#{i18n['template.submenu.consulta.title']}">
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.autorizacao']}" ajax="false" url="faces/autorizacaolist.xhtml" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permAutorizacao}"/> 
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.chaves']}" ajax="false" url="faces/chavelist.xhtml" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permChave}"/>
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.emprestimosativos']}" ajax="false" url="faces/emprestimoativoconsulta.xhtml" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permConsEmpr}"/>
+                            <p:menuitem value="#{i18n['template.submenu.menuitem.usuarios']}" ajax="false" url="faces/usuariolist.xhtml" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permUsuario}"/>
+                        </p:submenu>            
+                        <p:menuitem value="#{i18n['template.submenu.sair.title']}" action="#{autenticacaoAutorizacaoBean.logoff()}">
+
+                        </p:menuitem>                
+
+                    </p:menubar>
+                </h:form>
+            </div>
+            <div id="conteudo">
+                <ui:insert name="conteudo"/>
+            </div>
+
+            <div id="rodape" style="text-align: center; width: 100%">
+                <p:panel>
+                    <h:outputText value="#{i18n['template.panel.title']}" style="font-size: 12px"/> <br/>
+                    <h:outputText value="2013 Daniel Felipe Lenzi - Todos os direitos reservados"
+                                  style="font-size: 12px"/>
+                </p:panel>
+            </div>
+
+        </h:panelGroup>    
+    </h:body>
+</html>
+
