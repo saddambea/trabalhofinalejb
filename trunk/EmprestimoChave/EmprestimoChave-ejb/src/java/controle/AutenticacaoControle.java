@@ -4,6 +4,8 @@
  */
 package controle;
 
+import dao.JPADAO;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -18,10 +20,13 @@ import modelo.Usuario;
  */
 @ManagedBean
 @SessionScoped
-public class AutenticacaoAutorizacaoBean {
+public class AutenticacaoControle {
 
 // referência para um objeto que representa
 // o usuário autenticado
+    @EJB
+    private JPADAO conexao;
+    
     private static Usuario usuario = new Usuario();
 // indica se o usuário está ou não autorizado
     private static boolean autorizado = false;
@@ -30,8 +35,9 @@ public class AutenticacaoAutorizacaoBean {
         autorizado=false;           
         return "principal";
     }
-    public void login() {
-        Query cons  = JPADAO.getInstancia().getEM().createQuery("Select u from Usuario u");
+    public boolean login() {
+        
+        Query cons  = conexao.getEM().createQuery("Select u from Usuario u");
 
         if (cons.getResultList().isEmpty()){
             //Adicionar automaticamente os tipos de 
@@ -40,24 +46,24 @@ public class AutenticacaoAutorizacaoBean {
             TipoUsuario tipoU = new TipoUsuario("Usuário", false, false, false, false, false, true);
             
             //Adicionar automaticamente usuarios
-            cons = JPADAO.getInstancia().getEM().createQuery("select u from Usuario u");
-            if(cons.getResultList().isEmpty()){
+            
+            if(conexao.listarTodos(Usuario.class).isEmpty()){
                 Usuario usuario =  new Usuario(111111, "Administrador", "administrador@adm.com.br", 111111, tipoA);
-                JPADAO.getInstancia().salvar(usuario);
+                conexao.salvar(usuario);
                 
                 usuario =  new Usuario(222222, "Balconista", "balconista@furb.com.br", 222222, tipoB);
-                JPADAO.getInstancia().salvar(usuario);
+                conexao.salvar(usuario);
                 
                 usuario =  new Usuario(333333, "Usuario", "usuario@furb.com.br", 333333, tipoU);
-                JPADAO.getInstancia().salvar(usuario);
+                conexao.salvar(usuario);
             }
         }
         
         autenticar(usuario.getCodigo(), usuario.getSenha());
     }
  
-// gets e sets    /*** Creates a new instance of AutenticacaoAutorizacaoBean*/
-    public AutenticacaoAutorizacaoBean() {
+// gets e sets    /*** Creates a new instance of AutenticacaoControle*/
+    public AutenticacaoControle() {
     }
 
     public Usuario getUsuario() {
@@ -76,17 +82,8 @@ public class AutenticacaoAutorizacaoBean {
         this.autorizado = autorizado;
     }
     
-    public static void autenticar(Integer codigo, Integer senha){
-        if (!getUsuarioAutenticacao(codigo, senha)){
-          autorizado=false;  
-          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,  "Usuário/Senha inválido","Não foi possível fazer login com o usuário/senha informados");
-                             FacesContext.getCurrentInstance().addMessage("login", msg);
-        }
-        else{
-            autorizado =true;
-            usuario= getUsuario(codigo, senha);
-            
-        }
+    public boolean autenticar(Integer codigo, Integer senha){
+        return getUsuarioAutenticacao(codigo, senha);
     }
     
     public static void autenticar(Integer codigo, Integer senha, String mensagem,String pagina){

@@ -4,6 +4,7 @@
  */
 package controle;
 
+import modelo.ChaveDataModel;
 import com.sun.media.sound.JARSoundbankReader;
 import dao.JPADAO;
 import javax.faces.bean.ManagedBean;
@@ -29,10 +30,10 @@ import modelo.Chave;
  */
 @ManagedBean
 @SessionScoped
-public class EmprestimoBean {
+public class EmprestimoControle {
 
     /**
-     * Creates a new instance of EmprestimoBean
+     * Creates a new instance of EmprestimoControle
      */
     private Emprestimo emprestimo;
     private boolean autenticar;
@@ -60,18 +61,18 @@ public class EmprestimoBean {
         this.salvo = salvo;
     }
 
-    public EmprestimoBean() {
+    public EmprestimoControle() {
         super();
     }
 
     public List<Emprestimo> getEmprestimos() {
         Query cons = JPADAO.getInstancia().getEM().createQuery("Select c from Emprestimo c");
-        EmprestimoBean.emprestimos = cons.getResultList();
-        return  EmprestimoBean.emprestimos;
+        EmprestimoControle.emprestimos = cons.getResultList();
+        return  EmprestimoControle.emprestimos;
     }
 
     public void setEmprestimos(List<Emprestimo> emprestimos) {
-        EmprestimoBean.emprestimos = emprestimos;
+        EmprestimoControle.emprestimos = emprestimos;
     }
     
 
@@ -84,11 +85,11 @@ public class EmprestimoBean {
     }
 
     public List<Chave> getChaves() {        
-        return EmprestimoBean.chaves;
+        return EmprestimoControle.chaves;
     }
 
     public void setChaves(List<Chave> chaves) {
-        EmprestimoBean.chaves = chaves;
+        EmprestimoControle.chaves = chaves;
     }
     
     public List<Chave> getChavesselecionadas() {
@@ -96,7 +97,7 @@ public class EmprestimoBean {
     }
 
     public void setChavesselecionadas(List<Chave> chavesselecionadas) {
-        EmprestimoBean.chavesselecionadas = chavesselecionadas;
+        EmprestimoControle.chavesselecionadas = chavesselecionadas;
     }
     
 
@@ -139,7 +140,7 @@ public class EmprestimoBean {
       this.chaves = cons.getResultList();
       this.chavesModel = new ChaveDataModel(chaves);
       this.autenticar = !this.chaves.isEmpty();
-      this.usuarioBusca = FuncoesGeraisBean.getUsuarioByCodigo(usuario.getCodigo());
+      this.usuarioBusca = FuncoesGeraisControle.getUsuarioByCodigo(usuario.getCodigo());
       return "emprestimoconsulta";
     }
     
@@ -147,9 +148,9 @@ public class EmprestimoBean {
         Emprestimo emp;
         this.salvo=false;
         
-        Usuario usuarioBusca = FuncoesGeraisBean.getUsuarioByCodigo(this.usuario.getCodigo());        
+        Usuario usuarioBusca = FuncoesGeraisControle.getUsuarioByCodigo(this.usuario.getCodigo());        
         
-        if (!AutenticacaoAutorizacaoBean.getUsuarioAutenticacao(this.usuario.getCodigo(), senha)){
+        if (!AutenticacaoControle.getUsuarioAutenticacao(this.usuario.getCodigo(), senha)){
           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,  "Usuário/Senha inválido","Não foi possível fazer login com o usuário/senha informados");
                              FacesContext.getCurrentInstance().addMessage("login", msg);
             
@@ -229,7 +230,7 @@ public class EmprestimoBean {
     }
 
     public static void setEmprestimoId(int emprestimoId) {
-        EmprestimoBean.emprestimoId = emprestimoId;
+        EmprestimoControle.emprestimoId = emprestimoId;
     }
 
     public String getMensagem() {

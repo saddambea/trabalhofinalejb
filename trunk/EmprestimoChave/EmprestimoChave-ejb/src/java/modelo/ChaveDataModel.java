@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controle;
+package modelo;
 import java.util.List;  
 import javax.faces.model.ListDataModel;  
 import modelo.Chave;

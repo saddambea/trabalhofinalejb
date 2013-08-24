@@ -23,10 +23,10 @@ import modelo.Chave;
  */
 @ManagedBean
 @SessionScoped
-public class ChaveBean {
+public class ChaveControle {
 
     /**
-     * Creates a new instance of ChaveBean
+     * Creates a new instance of ChaveControle
      */
     private Chave chave;
     private static List<Chave> chaves = new ArrayList<Chave>();
@@ -41,18 +41,18 @@ public class ChaveBean {
         this.salvo = salvo;
     }
 
-    public ChaveBean() {
+    public ChaveControle() {
         super();
     }
 
     public List<Chave> getChaves() {
         Query cons = JPADAO.getInstancia().getEM().createQuery("Select c from Chave c");
-        ChaveBean.chaves = cons.getResultList();
-        return  ChaveBean.chaves;
+        ChaveControle.chaves = cons.getResultList();
+        return  ChaveControle.chaves;
     }
 
     public void setChaves(List<Chave> chaves) {
-        ChaveBean.chaves = chaves;
+        ChaveControle.chaves = chaves;
     }
 
     public Chave getChave() {
@@ -119,7 +119,7 @@ public class ChaveBean {
     }
 
     public static void setChaveId(int chaveId) {
-        ChaveBean.chaveId = chaveId;
+        ChaveControle.chaveId = chaveId;
     }
 
 }
