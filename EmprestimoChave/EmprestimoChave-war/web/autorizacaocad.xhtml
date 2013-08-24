@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>        
+        <title>#{i18n['autorizacao.head.title']}</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="template.xhtml">
+            <ui:define name="conteudo">
+                <p:panel header="#{i18n['autorizacao.panel.header']}">
+                    <h:form>
+                        <h:panelGrid columns="3">
+                            <h:outputText value="#{i18n['autorizacao.input.usuario.text']}"/>
+                            <h:outputText value="#{autenticacaoAutorizacaoBean.usuario.nome}"/>
+                            <h:outputText value=""/>
+                            
+                            <h:outputText value="#{i18n['autorizacao.input.chave.text']}"/>
+                            <p:selectOneMenu id="chave" value="#{autorizacaoBean.autorizacao.chave}">
+                                <f:selectItems value="#{chaveBean.chaves}"
+                                               var="umChave"
+                                               itemLabel="#{umChave.sigla}"/>                                
+                            </p:selectOneMenu>                            
+                            <p:message for="chave"/>      
+                            
+                            <h:outputText value="#{i18n['autorizacao.input.dtinicio.value']}"/>
+                            <p:calendar id="dtinicio" pattern="dd/MM/yyyy"
+                                        mode="popup" showOn="button" required="true"
+                                        
+                                        value="#{autorizacaoBean.autorizacao.dataInicio}"
+                                        requiredMessage="#{i18n['autorizacao.calendar.dtinicio.requiredMessage']}"/>
+                            <p:message for="dtinicio"/>                     
+                            
+                            <h:outputText value="#{i18n['autorizacao.input.dtfim.value']}"/>
+                            <p:calendar id="dtfim" pattern="dd/MM/yyyy"
+                                        mode="popup" showOn="button" required="false"
+                                        value="#{autorizacaoBean.autorizacao.dataFim}"
+                                        requiredMessage="#{i18n['autorizacao.calendar.dtfim.requiredMessage']}"/>
+                            <p:message for="dtfim"/>                     
+                        </h:panelGrid>
+
+                        <hr/>
+                        <p:outputPanel layout="block" 
+                                       style="margin: auto; width:40%">
+                            <p:commandButton value="#{i18n['generico.button.salvar.label']}" ajax="false" action="#{autorizacaoBean.salvar()}"/>
+                        </p:outputPanel>                
+                    </h:form>
+
+                </p:panel>
+            </ui:define>
+        </ui:composition>    
+    </h:body>
+</html>
+
