@@ -6,7 +6,6 @@
     <class>modelo.Autorizacao</class>
     <class>modelo.Chave</class>
     <class>modelo.Emprestimo</class>
-    <class>modelo.Produto</class>
     <class>modelo.TipoUsuario</class>
     <class>modelo.Usuario</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
