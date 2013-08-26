@@ -5,6 +5,7 @@
 package converter;
 
 import controle.ChaveControle;
+import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -13,13 +14,15 @@ import modelo.Chave;
 
 @FacesConverter(forClass = Chave.class)
 public class ChaveConverter implements Converter {
+    @EJB
+    private ChaveControle controle;
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 // pegar o ID da chave, recebido pelo ‘value'
         int idChave = Integer.parseInt(value);
 // buscar a chave no ChaveControle, via método estático
-        Chave cat = ChaveControle.buscarChave(idChave);
+        Chave cat = controle.getChave(idChave);
         return cat;
     }
 

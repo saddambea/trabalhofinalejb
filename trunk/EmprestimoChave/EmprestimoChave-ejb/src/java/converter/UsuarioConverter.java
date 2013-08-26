@@ -5,6 +5,8 @@
 package converter;
 
 import controle.UsuarioControle;
+import dao.JPADAO;
+import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -13,14 +15,14 @@ import modelo.Usuario;
 
 @FacesConverter(forClass = Usuario.class)
 public class UsuarioConverter implements Converter {
-
+    @EJB
+    private JPADAO conexao;
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 // pegar o ID da chave, recebido pelo ‘value'
         int idUsuario = Integer.parseInt(value);
 // buscar a chave no ChaveBean, via método estático
-        Usuario usu = UsuarioControle.buscarUsuario(idUsuario);
-        return usu;
+        return conexao.procurar(Usuario.class, idUsuario);
     }
 
     @Override

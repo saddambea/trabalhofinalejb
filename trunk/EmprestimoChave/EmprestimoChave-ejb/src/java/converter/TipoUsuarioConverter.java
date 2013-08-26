@@ -5,6 +5,8 @@
 package converter;
 
 import controle.TipoUsuarioControle;
+import dao.JPADAO;
+import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -13,14 +15,15 @@ import modelo.TipoUsuario;
 
 @FacesConverter(forClass = TipoUsuario.class)
 public class TipoUsuarioConverter implements Converter {
-
+    @EJB            
+    JPADAO conexao;
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 // pegar o ID do tipo, recebido pelo ‘value'
         int idTipo = Integer.parseInt(value);
 // buscar a categoria no CategoriaBean, via método estático
-        TipoUsuario tip = TipoUsuarioControle.buscarTipoUsuario(idTipo);
-        return tip;
+        
+        return conexao.procurar(TipoUsuario.class, idTipo);
     }
 
     @Override
