@@ -6,14 +6,9 @@ package controle;
 
 import dao.JPADAO;
 import javax.faces.bean.ManagedBean;
-import modelo.Chave;
-
-import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import modelo.Chave;
 
@@ -28,98 +23,32 @@ public class ChaveControle {
     /**
      * Creates a new instance of ChaveControle
      */
-    private Chave chave;
-    private static List<Chave> chaves = new ArrayList<Chave>();
-    private static int chaveId = 1;
-    private boolean salvo = false;
-    
-    public boolean isSalvo() {
-        return salvo;
-    }
+    @EJB
+    private JPADAO conexao;
 
-    public void setSalvo(boolean salvo) {
-        this.salvo = salvo;
-    }
 
-    public ChaveControle() {
-        super();
-    }
 
     public List<Chave> getChaves() {
-        Query cons = JPADAO.getInstancia().getEM().createQuery("Select c from Chave c");
-        ChaveControle.chaves = cons.getResultList();
-        return  ChaveControle.chaves;
+        return  conexao.listarTodos(Chave.class);
     }
 
-    public void setChaves(List<Chave> chaves) {
-        ChaveControle.chaves = chaves;
+
+    public Chave getChave(Integer id) {
+        return conexao.procurar(Chave.class, id);
     }
 
-    public Chave getChave() {
-        return chave;
+    public Boolean excluir(Chave chave) {
+        conexao.excluir(chave);
+        return true;
+        
     }
 
-    public void setChave(Chave chave) {
-        this.chave = chave;
+    public boolean salvar(Chave chave) {
+        conexao.salvar(chave);
+        return true;
     }
 
-    public String novo() {
-        this.chave = new Chave();
-        this.salvo = false;
-        return "chavecad";
-    }
 
-    public String editar(Chave oChave) {
-        this.chave = oChave;
-        salvo = false;
-        return "chavecad";
-    }
-
-    public String excluir(Chave oChave) {
-        JPADAO.getInstancia().excluir(oChave);
-        return "chavelist";
-    }
-
-    public String excluir() {
-        JPADAO.getInstancia().excluir(chave);
-        return "chavelist";
-    }
-
-    public String salvar() {
-        System.out.println("Chave salvo: " + chave.getSigla());
-        JPADAO.getInstancia().salvar(chave);
-        salvo = true;
-        return "chavelist";
-    }
-
-    public String cancelar() {
-        this.salvo = false;
-        return "principal";
-    }
-
-    public static Chave buscarChave(int idChave) {
-        for (Chave cat : chaves) {
-            if (cat.getId() == idChave) {
-                return cat;
-            }
-        }
-        return null;
-    }
 
     
-    public String getRestritoStr() {
-        if(chave.getRestrito())
-            return "Sim";
-        else
-          return "Não";
-    }
-
-    public static int getChaveId() {
-        return chaveId;
-    }
-
-    public static void setChaveId(int chaveId) {
-        ChaveControle.chaveId = chaveId;
-    }
-
 }
