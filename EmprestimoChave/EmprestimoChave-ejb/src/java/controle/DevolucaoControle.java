@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.faces.bean.SessionScoped;
 import modelo.Autorizacao;
 import modelo.Emprestimo;
@@ -21,6 +22,7 @@ import modelo.Chave;
  */
 @ManagedBean
 @SessionScoped
+@Stateless
 public class DevolucaoControle {
 
     /**

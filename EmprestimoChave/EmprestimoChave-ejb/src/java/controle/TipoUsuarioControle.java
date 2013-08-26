@@ -10,6 +10,7 @@ import modelo.TipoUsuario;
 
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.faces.bean.SessionScoped;
 
 /**
@@ -18,6 +19,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
+@Stateless
 public class TipoUsuarioControle {
     @EJB
     private JPADAO conexao;

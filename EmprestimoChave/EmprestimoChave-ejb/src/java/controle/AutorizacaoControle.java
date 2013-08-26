@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.faces.bean.SessionScoped;
 import modelo.Autorizacao;
 
@@ -18,6 +19,7 @@ import modelo.Autorizacao;
  */
 @ManagedBean
 @SessionScoped
+@Stateless
 public class AutorizacaoControle {
 
     /**
