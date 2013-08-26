@@ -11,9 +11,8 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
-import javax.persistence.Query;
+import modelo.Autorizacao;
 import modelo.Emprestimo;
-import modelo.Usuario;
 import modelo.Chave;
 
 /**
@@ -41,10 +40,8 @@ public class DevolucaoControle {
     }
 
     
-    public List<Chave> getChaves() {        
-        return conexao.buscar(Emprestimo.class, 
-                              new String[] = {""}, 
-                              new String[] = {""});
+    public List<Chave> getChaves(Autorizacao autorizacao) {        
+        return conexao.listarTodos(Chave.class);
     }
 
     
@@ -56,93 +53,36 @@ public class DevolucaoControle {
         return true;
     }
 
-    public String excluir() {        
-        JPADAO.getInstancia().excluir(emprestimo);
+    
+    public List<Emprestimo> devolucao(){        
+        String[] fields = {"e.dataDevolucao"};
+        String[] values = {"is null"};
+        return  conexao.listar(Emprestimo.class, fields,values);
         
-        return "devolucaolist";
-    }
-
-    
-    public String devolucao(){                
-        Query cons = JPADAO.getInstancia().getEM().createQuery("Select e from Emprestimo e where e.dataDevolucao is null");
-        this.salvo = false;
-        emprestimos = cons.getResultList();
-        return "devolucaoconsulta";
     }
     
-    public String devolver(Emprestimo oEmprestimo){
+    public boolean devolver(Emprestimo oEmprestimo){
       oEmprestimo.setDataDevolucao(new Date(System.currentTimeMillis()));
-      emprestimo = JPADAO.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
+      Emprestimo emprestimo = conexao.procurar(Emprestimo.class, oEmprestimo.getId());
         try {
-            JPADAO.getInstancia().salvar(oEmprestimo);
-            this.salvo = true;
+            conexao.salvar(oEmprestimo);
+            return true;
         } catch (Exception e) {
-            this.salvo = false;
+            return false;
         }
-      
-      return "devolucaoconsulta";
     }
-    public String salvar() {
-        System.out.println("Devolução salva: " + emprestimo.getId());
-        JPADAO.getInstancia().salvar(emprestimo);
-        this.salvo=true;
+
+    public Emprestimo buscarEmprestimo(int idEmprestimo) {
+        try {
+          return conexao.procurar(Emprestimo.class, idEmprestimo);
+        } catch (Exception e) {
+            return null;
+        }
+            
+            
         
-        return "devolucaocad";
     }
 
-    public String cancelar() {
-        this.salvo = false;
-        return "devolucaoconsulta";
-    }
-
-    public static Emprestimo buscarEmprestimo(int idEmprestimo) {
-        for (Emprestimo cat : emprestimos) {
-            if (cat.getId() == idEmprestimo) {
-                return cat;
-            }
-        }
-        return null;
-    }
-
-    public String emprestimo(){
-        this.emprestimo = new Emprestimo();
-        this.salvo=false;
-        this.chaves.clear();
-        return "emprestimoconsulta";
-    }
-    
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public static int getEmprestimoId() {
-        return emprestimoId;
-    }
-
-    public static void setEmprestimoId(int emprestimoId) {
-        DevolucaoControle.emprestimoId = emprestimoId;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public static List<Emprestimo> getDevolucoes() {
-        return devolucoes;
-    }
-
-    public static void setDevolucoes(List<Emprestimo> devolucoes) {
-        DevolucaoControle.devolucoes = devolucoes;
-    }
 
     
 }

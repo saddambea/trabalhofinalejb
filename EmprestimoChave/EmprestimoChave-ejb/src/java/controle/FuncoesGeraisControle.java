@@ -7,6 +7,7 @@ package controle;
 import dao.JPADAO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
@@ -19,6 +20,8 @@ import modelo.Usuario;
 @ManagedBean
 @SessionScoped
 public class FuncoesGeraisControle {
+    @EJB
+    private JPADAO conexao;
 
     /**
      * Creates a new instance of FuncoesGeraisControle
@@ -54,11 +57,9 @@ public class FuncoesGeraisControle {
             return "Não";
     }
     
-    public static Usuario getUsuarioByCodigo(Integer codigo){
-        Query cons = JPADAO.getInstancia().getEM().createQuery("Select u From Usuario u where u.codigo = :pcodigo");
-        cons.setParameter("pcodigo", codigo);
+    public Usuario getUsuarioByCodigo(Integer codigo){
         try {
-            return (Usuario) cons.getSingleResult();
+            return conexao.buscarSimples(Usuario.class, "codigo", codigo);
         } catch (Exception e) {
             return null;
         }

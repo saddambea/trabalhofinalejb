@@ -1,12 +1,8 @@
 package dao;
 
-import com.sun.tools.jxc.gen.config.Classes;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -78,6 +74,23 @@ public class JPADAO {
         return cons.getResultList();
     }
     
+    public <T> List<T> listar(Class<T> classe, String[] fields, String[] values) {
+        Query cons = em.createQuery("select o from "+classe.getName()+" o");
+        String sqlWhere = "";
+        for(int i = 0; i<fields.length -1; i++){
+            if(sqlWhere.isEmpty()){
+                sqlWhere = "Where " + fields[i] + " :"+fields[i]; 
+            }
+            else{
+                sqlWhere = " and " + fields[i] + " :"+fields[i]; 
+            }
+            cons.setParameter(fields[i], values[i]);
+        }
+        
+        return cons.getResultList();
+    }
+    
+    
     /**
      * Retorna o EntityManager utilizado por este DAO.
      * Este método pode ser utilizado para criação de consultas a partir do entity manager.
@@ -102,5 +115,11 @@ public class JPADAO {
         }
         
         return  (T) cons.getSingleResult();    
+    }
+    
+    public <T> T buscarSimples(Class<T> classe, String field, Object value){
+        Query cons = em.createQuery("Select o from " + classe.getName() + "where " + field + " = :" + field);        
+        cons.setParameter(":" + field, value);
+        return (T)cons.getSingleResult();
     }
 }
