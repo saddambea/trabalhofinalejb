@@ -6,15 +6,11 @@ package controle;
 
 import dao.JPADAO;
 import javax.faces.bean.ManagedBean;
-import modelo.Emprestimo;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import modelo.Emprestimo;
 import modelo.Usuario;
@@ -31,74 +27,33 @@ public class DevolucaoControle {
     /**
      * Creates a new instance of EmprestimoBean
      */
-    private Emprestimo emprestimo;
-    
-    private Usuario usuario = new Usuario();
-    private static List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
-    private static List<Emprestimo> devolucoes = new ArrayList<Emprestimo>();
-    
-    private static List<Chave> chaves = new ArrayList<Chave>();
-    
-    private static int emprestimoId = 1;
-    private boolean salvo = false;
-    
-    private String mensagem;
-    
-    public boolean isSalvo() {
-        return salvo;
-    }
-
-    public void setSalvo(boolean salvo) {
-        this.salvo = salvo;
-    }
-
-    public DevolucaoControle() {
-        super();
-    }
+    @EJB
+    private JPADAO conexao;
 
     public List<Emprestimo> getEmprestimos() {
-        Query cons = JPADAO.getInstancia().getEM().createQuery("Select c from Emprestimo c where c.dataDevolucao is null");
-        DevolucaoControle.emprestimos = cons.getResultList();
-        return  DevolucaoControle.emprestimos;
+        return  conexao.listarTodos(Emprestimo.class);
     }
 
-    public void setEmprestimos(List<Emprestimo> emprestimos) {
-        DevolucaoControle.emprestimos = emprestimos;
-    }
     
 
-    public Emprestimo getEmprestimo() {
-        return emprestimo;
+    public Emprestimo getEmprestimo(Integer id) {
+        return conexao.procurar(Emprestimo.class, id);
     }
 
-    public void setEmprestimo(Emprestimo emprestimo) {
-        this.emprestimo = emprestimo;
-    }
-
+    
     public List<Chave> getChaves() {        
-        return DevolucaoControle.chaves;
-    }
-
-    public void setChaves(List<Chave> chaves) {
-        DevolucaoControle.chaves = chaves;
+        return conexao.buscar(Emprestimo.class, 
+                              new String[] = {""}, 
+                              new String[] = {""});
     }
 
     
-    public String novo() {
-        this.emprestimo = new Emprestimo();
-        this.salvo = false;
-        return "emprestimocad";
-    }
 
-    public String editar(Emprestimo oEmprestimo) {
-        this.emprestimo = JPADAO.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
-        salvo = false;
-        return "emprestimocad";
-    }
-
-    public String excluir(Emprestimo oEmprestimo) {
-        emprestimos.remove(oEmprestimo);
-        return "emprestimolist";
+    
+    
+    public boolean excluir(Emprestimo oEmprestimo) {
+        conexao.excluir(oEmprestimo);
+        return true;
     }
 
     public String excluir() {        
