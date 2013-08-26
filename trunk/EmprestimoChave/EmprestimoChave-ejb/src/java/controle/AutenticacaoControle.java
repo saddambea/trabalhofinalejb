@@ -7,6 +7,7 @@ package controle;
 import dao.JPADAO;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
@@ -18,6 +19,7 @@ import modelo.Usuario;
  */
 @ManagedBean
 @SessionScoped
+@Stateless
 public class AutenticacaoControle {
 
 // referência para um objeto que representa

@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
 import modelo.Emprestimo;
@@ -21,6 +22,7 @@ import modelo.Chave;
  */
 @ManagedBean
 @SessionScoped
+@Stateless
 public class EmprestimoControle {
     @EJB    
     private JPADAO conexao;

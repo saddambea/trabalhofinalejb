@@ -8,6 +8,7 @@ import dao.JPADAO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
@@ -19,6 +20,7 @@ import modelo.Usuario;
  */
 @ManagedBean
 @SessionScoped
+@Stateless
 public class FuncoesGeraisControle {
     @EJB
     private JPADAO conexao;
