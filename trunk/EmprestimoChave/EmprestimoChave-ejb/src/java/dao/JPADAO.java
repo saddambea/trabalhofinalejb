@@ -87,7 +87,7 @@ public class JPADAO {
         return em;
     }
     
-    public <T> Object buscar(Class<T> classe, String[] fields, String[] values){
+    public <T> T buscar(Class<T> classe, String[] fields, String[] values){
         String  sqlWhere = "";
         
         Query cons = em.createQuery("Select o from " + classe.getName() + sqlWhere) ;        
@@ -101,6 +101,6 @@ public class JPADAO {
             cons.setParameter(fields[i], values[i]);
         }
         
-        return  cons.getSingleResult();    
+        return  (T) cons.getSingleResult();    
     }
 }

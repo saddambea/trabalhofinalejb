@@ -5,16 +5,13 @@
 package controle;
 
 import dao.JPADAO;
-import java.lang.String;
+
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.persistence.Query;
 import modelo.TipoUsuario;
 import modelo.Usuario;
-import java.lang.String;
 /**
  *
  * @author dflenzi
@@ -28,15 +25,7 @@ public class AutenticacaoControle {
     @EJB
     private JPADAO conexao;
     
-    private static Usuario usuario = new Usuario();
-// indica se o usuário está ou não autorizado
-    private static boolean autorizado = false;
-    public String logoff(){
-        usuario = new Usuario();
-        autorizado=false;           
-        return "principal";
-    }
-    public boolean login() {
+    public boolean login(Integer codigo, Integer senha) {
         
         Query cons  = conexao.getEM().createQuery("Select u from Usuario u");
 
@@ -60,51 +49,32 @@ public class AutenticacaoControle {
             }
         }
         
-        return autenticar(usuario.getCodigo(), usuario.getSenha());
+        return autenticar(codigo, senha);
     }
  
 // gets e sets    /*** Creates a new instance of AutenticacaoControle*/
     public AutenticacaoControle() {
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public boolean isAutorizado() {
-        return autorizado;
-    }
-
-    public void setAutorizado(boolean autorizado) {
-        this.autorizado = autorizado;
-    }
-    
     public boolean autenticar(Integer codigo, Integer senha){
         return getUsuarioAutenticacao(codigo, senha);
     }
     
-    public static void autenticar(Integer codigo, Integer senha, String mensagem,String pagina){
-        if (!getUsuarioAutenticacao(codigo, senha)){
-          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,  "Usuário/Senha inválido",mensagem);
-                             FacesContext.getCurrentInstance().addMessage(pagina, msg);
-        }
+    public boolean autenticar(Integer codigo, Integer senha, String mensagem,String pagina){
+        return getUsuarioAutenticacao(codigo, senha);
     }
     
     
-    public static Usuario getUsuario(Integer codigo, Integer senha){
+    public Usuario getUsuario(Integer codigo, Integer senha){
         Query cons;
         
+        String[] fields = {"codigo", "senha"};
+        String[] values = {String.valueOf(codigo), String.valueOf(senha)}; 
         
-        String[] foo = {Integer.tos, "", "", ""}; 
-        
-        Usuario user = conexao.buscar(Usuario.class,, new String["0","1"]);                                      
+        Usuario user = conexao.buscar(Usuario.class,fields, values);                                      
                                       
         try {
-            Usuario user =  (Usuario) cons.getSingleResult();            
+                        
             if(user !=null)
                 return user;
             else
@@ -115,13 +85,14 @@ public class AutenticacaoControle {
         
     }
     
-    public static boolean getUsuarioAutenticacao(Integer codigo, Integer senha){
-        Query cons;
-        cons = JPADAO.getInstancia().getEM().createQuery("Select u from Usuario u Where u.codigo = :pcodigo and u.senha = :psenha");
-        cons.setParameter("pcodigo", codigo);
-        cons.setParameter("psenha", senha);
+    public boolean getUsuarioAutenticacao(Integer codigo, Integer senha){
+
+        String[] fields = {"codigo", "senha"};
+        String[] values = {String.valueOf(codigo), String.valueOf(senha)}; 
+        
+                                             
         try {
-            Usuario user =  (Usuario) cons.getSingleResult();            
+            Usuario user = conexao.buscar(Usuario.class,fields, values);            
             if(user !=null)
                 return true;
             else
