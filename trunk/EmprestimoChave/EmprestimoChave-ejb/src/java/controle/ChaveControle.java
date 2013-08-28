@@ -5,28 +5,24 @@
 package controle;
 
 import dao.JPADAO;
-import javax.faces.bean.ManagedBean;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.faces.bean.SessionScoped;
-import javax.persistence.Query;
 import modelo.Chave;
 
 /**
  *
  * @author dflenzi
  */
-@ManagedBean
-@SessionScoped
 @Stateless
-public class ChaveControle {
+public class ChaveControle{
 
     /**
      * Creates a new instance of ChaveControle
      */
     @EJB
-    private JPADAO conexao;
+    private dao.JPADAO conexao;
 
 
 

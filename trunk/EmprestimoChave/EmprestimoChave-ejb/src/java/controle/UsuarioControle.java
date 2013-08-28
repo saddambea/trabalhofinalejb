@@ -15,13 +15,13 @@ import javax.ejb.Stateful;
  * @author dflenzi
  */
 @Stateful
-public class UsuarioControle {
+public class UsuarioControle{
 
     /**
      * Creates a new instance of UsuarioControle
      */
     @EJB
-    private JPADAO conexao;
+    private dao.JPADAO conexao;
     
 
     public List<Usuario> getUsuarios() {

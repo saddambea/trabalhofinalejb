@@ -4,26 +4,22 @@
  */
 package controle;
 
+
 import dao.JPADAO;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.persistence.Query;
 import modelo.Usuario;
 
 /**
  *
  * @author daniel
  */
-@ManagedBean
-@SessionScoped
 @Stateless
-public class FuncoesGeraisControle {
+public class FuncoesGeraisControle{
     @EJB
-    private JPADAO conexao;
+    private dao.JPADAO conexao;
 
     /**
      * Creates a new instance of FuncoesGeraisControle

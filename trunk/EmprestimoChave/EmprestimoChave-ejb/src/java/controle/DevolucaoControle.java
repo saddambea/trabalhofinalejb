@@ -5,13 +5,10 @@
 package controle;
 
 import dao.JPADAO;
-import javax.faces.bean.ManagedBean;
-
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.faces.bean.SessionScoped;
 import modelo.Autorizacao;
 import modelo.Emprestimo;
 import modelo.Chave;
@@ -20,16 +17,14 @@ import modelo.Chave;
  *
  * @author dflenzi
  */
-@ManagedBean
-@SessionScoped
 @Stateless
-public class DevolucaoControle {
+public class DevolucaoControle{
 
     /**
      * Creates a new instance of EmprestimoBean
      */
     @EJB
-    private JPADAO conexao;
+    private dao.JPADAO conexao;
 
     public List<Emprestimo> getEmprestimos() {
         return  conexao.listarTodos(Emprestimo.class);

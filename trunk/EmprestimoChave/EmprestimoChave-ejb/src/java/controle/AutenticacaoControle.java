@@ -6,10 +6,9 @@ package controle;
 
 import dao.JPADAO;
 
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
 import modelo.TipoUsuario;
 import modelo.Usuario;
@@ -17,16 +16,14 @@ import modelo.Usuario;
  *
  * @author dflenzi
  */
-@ManagedBean
-@SessionScoped
 @Stateless
-public class AutenticacaoControle {
+public class AutenticacaoControle{
 
 // referência para um objeto que representa
 // o usuário autenticado
     @EJB
-    private JPADAO conexao;
-    
+    private dao.JPADAO conexao;
+
     public boolean login(Integer codigo, Integer senha) {
         
         Query cons  = conexao.getEM().createQuery("Select u from Usuario u");
