@@ -5,12 +5,11 @@
 package controle;
 
 import dao.JPADAO;
-import javax.faces.bean.ManagedBean;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
 import modelo.Emprestimo;
 import modelo.Usuario;
@@ -20,15 +19,11 @@ import modelo.Chave;
  *
  * @author dflenzi
  */
-@ManagedBean
-@SessionScoped
 @Stateless
-public class EmprestimoControle {
-    @EJB    
-    private JPADAO conexao;
-    
+public class EmprestimoControle{
     @EJB
-    private AutenticacaoControle autenticacao;
+    private dao.JPADAO conexao;
+    private controle.AutenticacaoControle autenticacao;
     /**
      * Creates a new instance of EmprestimoControle
      */

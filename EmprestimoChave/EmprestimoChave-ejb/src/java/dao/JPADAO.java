@@ -1,7 +1,8 @@
 package dao;
 
 import java.util.List;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -11,20 +12,25 @@ import javax.persistence.Query;
  * Permite a manipulação básica de quaisquer tipos de entidades.
  * @author Fernando dos Santos
  */
-@Stateless
+
+@Singleton
+@Startup
 public class JPADAO {
-
-   
     @PersistenceContext
-    private EntityManager em;
-    
+    private EntityManager em;    
 
-     /**
+    /**
      * Salva uma entidade.
      * Este método utiliza a operação merge() da unidade de persistência. 
      * Logo, pode-se passar entidades em estado NEW, MANAGED, ou DETACHED.
      * @param entidade a entidade a ser salva.
      */
+    public JPADAO() {
+        System.out.println("Iniciando dao");
+    }
+
+    
+    
     public void salvar(Object entidade) {
         em.getTransaction().begin();
         em.merge(entidade);

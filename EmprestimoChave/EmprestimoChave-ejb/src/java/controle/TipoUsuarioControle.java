@@ -5,24 +5,20 @@
 package controle;
 
 import dao.JPADAO;
-import javax.faces.bean.ManagedBean;
 import modelo.TipoUsuario;
 
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author dflenzi
  */
-@ManagedBean
-@SessionScoped
 @Stateless
-public class TipoUsuarioControle {
+public class TipoUsuarioControle{
     @EJB
-    private JPADAO conexao;
+    private dao.JPADAO conexao;
     /**
      * Creates a new instance of CategoriaBean
      */

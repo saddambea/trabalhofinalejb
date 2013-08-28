@@ -5,28 +5,24 @@
 package controle;
 
 import dao.JPADAO;
-import javax.faces.bean.ManagedBean;
-
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.faces.bean.SessionScoped;
 import modelo.Autorizacao;
 
 /**
  *
  * @author dflenzi
  */
-@ManagedBean
-@SessionScoped
+
 @Stateless
-public class AutorizacaoControle {
+public class AutorizacaoControle{
 
     /**
      * Creates a new instance of UsuarioBean
      */
     @EJB
-    JPADAO conexao;
+    dao.JPADAO conexao;
     
 
  
