@@ -14,7 +14,6 @@ import javax.persistence.Query;
  */
 
 @Singleton(mappedName = "JPADAO")
-@Startup
 public class JPADAO {
     @PersistenceContext
     private EntityManager em;    
@@ -32,9 +31,9 @@ public class JPADAO {
     
     
     public void salvar(Object entidade) {
-        em.getTransaction().begin();
-        em.merge(entidade);
-        em.getTransaction().commit();
+        //em.merge(entidade);
+        em.persist(entidade);
+        em.flush(); // forçado para retornar o novo id
     }
 
     /**
@@ -64,9 +63,7 @@ public class JPADAO {
      * @param entidade A entidade a ser removida.
      */
     public void excluir(Object entidade) {
-        em.getTransaction().begin();
         em.remove(em.merge(entidade));
-        em.getTransaction().commit();
     }
 
     /**
@@ -109,23 +106,25 @@ public class JPADAO {
     public <T> T buscar(Class<T> classe, String[] fields, String[] values){
         String  sqlWhere = "";
         
-        Query cons = em.createQuery("Select o from " + classe.getName() + sqlWhere) ;        
-        for(int i = 0; i<fields.length -1; i++){
+        
+        
+        for(int i = 0; i<fields.length ; i++){
             if(sqlWhere.isEmpty()){
-                sqlWhere = "Where " + fields[i] + " :"+fields[i]; 
+                sqlWhere = "Where o." + fields[i] + " = "+values[i]; 
             }
             else{
-                sqlWhere = " and " + fields[i] + " :"+fields[i]; 
+                sqlWhere = sqlWhere + " and o." + fields[i] + " = "+values[i]; 
             }
-            cons.setParameter(fields[i], values[i]);
+            
         }
+        Query cons = em.createQuery("Select o from " + classe.getName()+" o " + sqlWhere) ;        
         
         return  (T) cons.getSingleResult();    
     }
     
     public <T> T buscarSimples(Class<T> classe, String field, Object value){
-        Query cons = em.createQuery("Select o from " + classe.getName() + "where " + field + " = :" + field);        
-        cons.setParameter(":" + field, value);
+        Query cons = em.createQuery("Select o from " + classe.getName() + " o where o." + field + " = :p" + field);        
+        cons.setParameter("p"+field, value);
         return (T)cons.getSingleResult();
     }
 }

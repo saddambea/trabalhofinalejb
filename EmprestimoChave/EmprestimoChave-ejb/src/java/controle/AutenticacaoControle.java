@@ -22,39 +22,43 @@ public class AutenticacaoControle{
 // referência para um objeto que representa
 // o usuário autenticado
     @EJB
-    private dao.JPADAO conexao;
+    private JPADAO conexao;
 
+    public AutenticacaoControle() {
+        System.out.println("Iniciou o autenticacaoControle");
+    }
+
+    
+    
     public boolean login(Integer codigo, Integer senha) {
         
         Query cons  = conexao.getEM().createQuery("Select u from Usuario u");
 
-        if (cons.getResultList().isEmpty()){
+        if(conexao.listarTodos(Usuario.class).isEmpty()){
             //Adicionar automaticamente os tipos de 
             TipoUsuario tipoA = new TipoUsuario("Administrador", true, true, true, false, false, true);
+            conexao.salvar(tipoA);
             TipoUsuario tipoB = new TipoUsuario("Balconista", false, false, false, true, true, true);
+            conexao.salvar(tipoB);
             TipoUsuario tipoU = new TipoUsuario("Usuário", false, false, false, false, false, true);
-            
+            conexao.salvar(tipoU); 
             //Adicionar automaticamente usuarios
+
+            Usuario usuario =  new Usuario(111111, "Administrador", "administrador@adm.com.br", 111111, tipoA);
+            conexao.salvar(usuario);
+
+            usuario =  new Usuario(222222, "Balconista", "balconista@furb.com.br", 222222, tipoB);
+            conexao.salvar(usuario);
+
+            usuario =  new Usuario(333333, "Usuario", "usuario@furb.com.br", 333333, tipoU);
+            conexao.salvar(usuario);
             
-            if(conexao.listarTodos(Usuario.class).isEmpty()){
-                Usuario usuario =  new Usuario(111111, "Administrador", "administrador@adm.com.br", 111111, tipoA);
-                conexao.salvar(usuario);
-                
-                usuario =  new Usuario(222222, "Balconista", "balconista@furb.com.br", 222222, tipoB);
-                conexao.salvar(usuario);
-                
-                usuario =  new Usuario(333333, "Usuario", "usuario@furb.com.br", 333333, tipoU);
-                conexao.salvar(usuario);
-            }
         }
         
         return autenticar(codigo, senha);
     }
  
 // gets e sets    /*** Creates a new instance of AutenticacaoControle*/
-    public AutenticacaoControle() {
-    }
-
     public boolean autenticar(Integer codigo, Integer senha){
         return getUsuarioAutenticacao(codigo, senha);
     }
@@ -91,9 +95,10 @@ public class AutenticacaoControle{
         
                                              
         try {
-            Usuario user = conexao.buscar(Usuario.class,fields, values);            
+            Usuario user = conexao.buscarSimples(Usuario.class, "codigo", senha);            
+            
             if(user !=null)
-                return true;
+                return (user.getSenha()==senha);
             else
                return false;
         } catch (Exception e) {
