@@ -4,11 +4,12 @@
  */
 package control;
 
-import dao.JPADAO;
+import controle.ChaveControle;
 import javax.faces.bean.ManagedBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
 import modelo.Chave;
@@ -24,6 +25,8 @@ public class ChaveBean {
     /**
      * Creates a new instance of ChaveBean
      */
+    @EJB
+    ChaveControle chavecontrole;
     private Chave chave;
     private static List<Chave> chaves = new ArrayList<Chave>();
     private static int chaveId = 1;
@@ -42,8 +45,8 @@ public class ChaveBean {
     }
 
     public List<Chave> getChaves() {
-        Query cons =null; //JPADAO.getInstancia().getEM().createQuery("Select c from Chave c");
-        ChaveBean.chaves = cons.getResultList();
+        
+        ChaveBean.chaves = chavecontrole.getChaves();
         return  ChaveBean.chaves;
     }
 
@@ -73,17 +76,18 @@ public class ChaveBean {
 
     public String excluir(Chave oChave) {
         //JPADAO.getInstancia().excluir(oChave);
+        chavecontrole.excluir(oChave);
         return "chavelist";
     }
 
     public String excluir() {
-        //JPADAO.getInstancia().excluir(chave);
+        chavecontrole.excluir(chave);
         return "chavelist";
     }
 
     public String salvar() {
         System.out.println("Chave salvo: " + chave.getSigla());
-        //JPADAO.getInstancia().salvar(chave);
+        chavecontrole.salvar(chave);
         salvo = true;
         return "chavelist";
     }
