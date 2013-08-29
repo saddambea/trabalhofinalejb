@@ -4,15 +4,13 @@
  */
 package control;
 
-import dao.JPADAO;
+import controle.AutorizacaoControle;
 import javax.faces.bean.ManagedBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.application.FacesMessage;
+import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.persistence.Query;
 import modelo.Usuario;
 import modelo.Chave;
 import modelo.Autorizacao;
@@ -28,8 +26,10 @@ public class AutorizacaoBean {
     /**
      * Creates a new instance of UsuarioBean
      */
+    @EJB
+    private AutorizacaoControle autorizacaocontrole;
     private Usuario usuario;
-    private Autorizacao autorizacao;
+    private Autorizacao autorizacao = new Autorizacao();
     private Chave chave;
     
     private static List<Autorizacao> autorizacoes = new ArrayList<Autorizacao>();
@@ -50,14 +50,9 @@ public class AutorizacaoBean {
     }
 
     public List<Autorizacao> getAutorizacoes() {
-        Query cons =null;//  JPADAO.getInstancia().getEM().createQuery("Select a from Autorizacao a");
-        autorizacoes = cons.getResultList();
-        return autorizacoes;
+        return autorizacaocontrole.getAutorizacoes();
     }
 
-    public void setAutorizacoes(List<Autorizacao> autorizacoes) {
-        AutorizacaoBean.autorizacoes = autorizacoes;
-    }
 
     public Autorizacao getAutorizacao() {        
         return autorizacao;
@@ -82,39 +77,22 @@ public class AutorizacaoBean {
     
 
     public String editar(Autorizacao oAutorizacao) {
-        this.autorizacao = null;//JPADAO.getInstancia().procurar(Autorizacao.class, oAutorizacao.getId());                
+        this.autorizacao = autorizacaocontrole.getAutorizacao(oAutorizacao.getId());                
         salvo = false;
         return "autorizacaocad";
     }
     
 
     public String excluir(Autorizacao oAutorizacao) {
-        //JPADAO.getInstancia().excluir(oAutorizacao);
-              
-        return "autorizacaolist";
-    }
-
-    public String excluir() {
-        autorizacoes.remove(autorizacao);
+        autorizacaocontrole.excluir(oAutorizacao);
         return "autorizacaolist";
     }
 
     public String salvar() {
         System.out.println("Autorização salva: " + autorizacao.toString());
-        try {            
-            Query cons =null; //JPADAO.getInstancia().getEM().createQuery("Select a from Autorizacao a where a.usuario = :pusuario and  a.chave = :pchave and (a.dataFim is null or a.dataFim <= :pdata)" ); 
-            cons.setParameter("pusuario", this.autorizacao.getUsuario());
-            cons.setParameter("pchave", this.autorizacao.getChave());
-            cons.setParameter("pdata", FuncoesGeraisBean.getDataHoraAtual());
+        try {        
             
-            if(cons.getResultList().isEmpty())
-              //JPADAO.getInstancia().salvar(autorizacao);
-                this.salvo = true;
-            else{
-              FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,  "Chave já autorizada","A chave já está autorizada para o usuário informado");
-                                 FacesContext.getCurrentInstance().addMessage("login", msg);
-            }                     
-                  
+            autorizacaocontrole.inserir(autorizacao);
             this.salvo = true;
             
         } catch (Exception e) {
@@ -128,15 +106,6 @@ public class AutorizacaoBean {
         return "manutencaousuariolist";
     }
     
-
-    public static Autorizacao buscarAutorizacao(int idAutorizacao) {
-        for (Autorizacao aut : autorizacoes) {
-            if (aut.getId() == idAutorizacao) {
-                return aut;
-            }
-        }
-        return null;
-    }
 
     public Usuario getUsuario() {
         return usuario;
