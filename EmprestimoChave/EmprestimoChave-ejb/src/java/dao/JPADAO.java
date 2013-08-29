@@ -13,7 +13,7 @@ import javax.persistence.Query;
  * @author Fernando dos Santos
  */
 
-@Singleton
+@Singleton(mappedName = "JPADAO")
 @Startup
 public class JPADAO {
     @PersistenceContext
