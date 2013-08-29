@@ -4,6 +4,8 @@
  */
 package control;
 
+import controle.AutenticacaoControle;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -25,17 +27,23 @@ public class AutenticacaoAutorizacaoBean {
     private static Usuario usuario = new Usuario();
 // indica se o usuário está ou não autorizado
     private static boolean autorizado = false;
+    @EJB
+    private AutenticacaoControle autenticacaocontrole;
     public String logoff(){
         usuario = new Usuario();
         autorizado=false;           
         return "principal";
     }
     public void login() {
-        AutenticacaoVisao autenticacaovisao= new AutenticacaoVisao();
-        if(!autenticacaovisao.login(usuario.getCodigo(), usuario.getSenha())){
+        if(!autenticacaocontrole.login(usuario.getCodigo(), usuario.getSenha())){
           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,  "Usuário/Senha inválido","Não foi possível fazer login com o usuário/senha informados");
                              FacesContext.getCurrentInstance().addMessage("login", msg);
         }
+        else{
+          autorizado=true;
+          usuario = autenticacaocontrole.getUsuario(usuario.getCodigo(), usuario.getSenha());
+        }  
+        
     }
  
 // gets e sets    /*** Creates a new instance of AutenticacaoAutorizacaoBean*/
