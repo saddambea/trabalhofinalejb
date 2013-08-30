@@ -4,12 +4,13 @@
  */
 package control;
 
-import dao.JPADAO;
+import controle.TipoUsuarioControle;
 import javax.faces.bean.ManagedBean;
 import modelo.TipoUsuario;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
 
@@ -28,6 +29,8 @@ public class TipoUsuarioBean {
     private static List<TipoUsuario> tipousuarios = new ArrayList<TipoUsuario>();
     private static int tipoUsuarioId = 1;
     private boolean salvo = false;
+    @EJB
+    private TipoUsuarioControle tipousuariocontrole;
 
     public boolean isSalvo() {
         return salvo;
@@ -42,11 +45,7 @@ public class TipoUsuarioBean {
     }
 
     public List<TipoUsuario> getTipoUsuarios() {
-        if(tipousuarios.isEmpty()){
-            Query cons =  null;//JPADAO.getInstancia().getEM().createQuery("SELECT t From TipoUsuario t");
-            tipousuarios = cons.getResultList();
-        }
-        return tipousuarios;
+        return tipousuariocontrole.getTipoUsuarios();
     }
 
     public void setTipoUsuarios(List<TipoUsuario> tipousuarios) {
@@ -74,18 +73,12 @@ public class TipoUsuarioBean {
     }
 
     public String excluir(TipoUsuario oTipoUsuario) {
-        //JPADAO.getInstancia().excluir(oTipoUsuario);
+        tipousuariocontrole.excluir(oTipoUsuario);
         return "tipousuariolist";
     }
 
-    public String excluir() {
-        //JPADAO.getInstancia().excluir(tipousuario);
-        return "tipousuariolist";
-    }
-    
 
     public String salvar() {
-        //JPADAO.getInstancia().salvar(tipousuario);
         this.salvo = true;
         return "tipousuariocad";
     }

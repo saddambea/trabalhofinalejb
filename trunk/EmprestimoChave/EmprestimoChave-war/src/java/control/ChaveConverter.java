@@ -4,22 +4,25 @@
  */
 package control;
 
+import controle.ChaveControle;
+import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import modelo.Chave;
 
-@FacesConverter(forClass = Chave.class)
+@FacesConverter(value = "chaveConverter")
 public class ChaveConverter implements Converter {
-
+    @EJB
+    ChaveControle chavecontrole;
+    
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-// pegar o ID da chave, recebido pelo ‘value'
+        // pegar o ID da chave, recebido pelo ‘value'
         int idChave = Integer.parseInt(value);
-// buscar a chave no ChaveBean, via método estático
-        Chave cat = ChaveBean.buscarChave(idChave);
-        return cat;
+      // buscar a chave no ChaveBean, via método estático
+        return chavecontrole.getChave(idChave);
     }
 
     @Override

@@ -15,4 +15,9 @@
             <supported-locale>en_US</supported-locale>
         </locale-config>
     </application>    
+    <managed-bean>
+       <managed-bean-name>chaveConverter</managed-bean-name>
+       <managed-bean-class>control.ChaveConverter</managed-bean-class>
+       <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>    
 </faces-config>

@@ -41,4 +41,5 @@ public class TipoUsuarioControle{
         return conexao.procurar(TipoUsuario.class, idTipoUsuario);
     }
     
+    
 }

@@ -19,7 +19,7 @@
                             <h:outputText value=""/>
                             
                             <h:outputText value="#{i18n['autorizacao.input.chave.text']}"/>
-                            <p:selectOneMenu id="chave" value="#{autorizacaoBean.autorizacao.chave}">
+                            <p:selectOneMenu id="chave" value="#{autorizacaoBean.autorizacao.chave}" converter="#{chaveConverter}">
                                 <f:selectItems value="#{chaveBean.chaves}"
                                                var="umChave"
                                                itemLabel="#{umChave.sigla}"/>                                

@@ -4,6 +4,8 @@
  */
 package control;
 
+import controle.TipoUsuarioControle;
+import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -12,13 +14,15 @@ import modelo.TipoUsuario;
 
 @FacesConverter(forClass = TipoUsuario.class)
 public class TipoUsuarioConverter implements Converter {
+    @EJB
+    TipoUsuarioControle tipousuariocontrole;
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 // pegar o ID do tipo, recebido pelo ‘value'
         int idTipo = Integer.parseInt(value);
 // buscar a categoria no CategoriaBean, via método estático
-        TipoUsuario tip = TipoUsuarioBean.buscarTipoUsuario(idTipo);
+        TipoUsuario tip = tipousuariocontrole.buscarTipoUsuario(idTipo);
         return tip;
     }
 
