@@ -5,10 +5,12 @@
 package controle;
 
 import dao.JPADAO;
+import java.util.ArrayList;
 import modelo.Usuario;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import modelo.Autorizacao;
 
 /**
  *
@@ -60,6 +62,17 @@ public class UsuarioControle{
     public Usuario getUsuarioByCodigo(int codigo){        
         return conexao.buscarSimples(Usuario.class, "codigo", codigo);
     }
+
+    public List<Autorizacao> getAutorizacoes(Usuario usuario) {
+       List<Autorizacao> lista = new ArrayList<Autorizacao>();
+       for(Autorizacao aut : conexao.listarTodos(Autorizacao.class)){
+           if(aut.getUsuario().getId() == usuario.getId()){
+             lista.add(aut);
+           }
+       }
+       return lista;
+    }
+
     
     
     

@@ -4,17 +4,18 @@
  */
 package control;
 
+import controle.UsuarioControle;
 import dao.JPADAO;
 import javax.faces.bean.ManagedBean;
 import modelo.Usuario;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.Query;
 import modelo.Autorizacao;
-import modelo.TipoUsuario;
 
 /**
  *
@@ -34,6 +35,8 @@ public class UsuarioBean {
     private boolean salvo = false;
     private String mensagem;
     private List<Autorizacao> autorizacoes = new ArrayList<Autorizacao>();
+    @EJB
+    private UsuarioControle usuariocontrole;
     
     
 
@@ -73,26 +76,20 @@ public class UsuarioBean {
 
     public String editar(Usuario oUsuario) {     
         
-        //this.usuario = JPADAO.getInstancia().procurar(Usuario.class, oUsuario.getId());
+        this.usuario = usuariocontrole.buscarUsuario(oUsuario.getId());
         salvo = false;
         return "usuariocad";
     }
 
     public String excluir(Usuario oUsuario) {
-        //JPADAO.getInstancia().excluir(oUsuario);
-        return "usuariolist";
-    }
-
-    public String excluir() {
-        usuarios.remove(usuario);
+        usuariocontrole.excluir(oUsuario);
         return "usuariolist";
     }
 
     public String salvar() {
         try {
-            //JPADAO.getInstancia().salvar(usuario);
-            this.salvo=true;
-            this.usuario = FuncoesGeraisBean.getUsuarioByCodigo(usuario.getCodigo());
+            usuariocontrole.salvar(usuario);
+            this.salvo=true;            
             
         } catch (Exception e) {
             this.salvo=false;
@@ -105,15 +102,6 @@ public class UsuarioBean {
         return "principal";
     }
     
-    public String login(){
-      return "";  
-
-    }
-
-    public static Usuario buscarUsuario(int idUsuario) {
-        return null;//JPADAO.getInstancia().procurar(Usuario.class, idUsuario);
-    }
-
     public String manterAutorizacao(Usuario oUsuario){
         if (oUsuario !=null && oUsuario != this.usuario){
             this.usuario = oUsuario;
@@ -122,11 +110,8 @@ public class UsuarioBean {
         return "manutencaousuariolist";
     }
     
-    public List<Autorizacao> getAutorizacoes() {        
-        Query cons = null;//JPADAO.getInstancia().getEM().createQuery("Select a from Autorizacao a where a.usuario.id = :pid" );
-        
-        cons.setParameter("pid", this.usuario.getId());
-        autorizacoes = cons.getResultList();
+    public List<Autorizacao> getAutorizacoes() {               
+        autorizacoes = usuariocontrole.getAutorizacoes(usuario);
         return autorizacoes;
     }
 
@@ -145,10 +130,8 @@ public class UsuarioBean {
    
     
     public Usuario getUsuarioByCodigo(int codigo){        
-        Query cons = null;//JPADAO.getInstancia().getEM().createQuery("Select u from Usuario u where u.codigo = :pcodigo");        
-        cons.setParameter("pcodigo", codigo);
         try {
-            return (Usuario) cons.getSingleResult();
+            return usuariocontrole.getUsuarioByCodigo(codigo);
         } catch (Exception e) {
             
           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,  "Usuário " + codigo + " não cadastrado.","Não foi possível encontrar o usuário.");
