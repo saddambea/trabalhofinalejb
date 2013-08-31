@@ -4,13 +4,16 @@
  */
 package control;
 
-import dao.JPADAOXX;
+import controle.FuncoesGeraisControle;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
 import modelo.Usuario;
+
+
 
 /**
  *
@@ -19,7 +22,8 @@ import modelo.Usuario;
 @ManagedBean
 @SessionScoped
 public class FuncoesGeraisBean {
-
+    @EJB
+    FuncoesGeraisControle funcoesgeraiscontrole;
     /**
      * Creates a new instance of FuncoesGeraisBean
      */
@@ -54,11 +58,9 @@ public class FuncoesGeraisBean {
             return "Não";
     }
     
-    public static Usuario getUsuarioByCodigo(Integer codigo){
-        Query cons = null;//JPADAO.getInstancia().getEM().createQuery("Select u From Usuario u where u.codigo = :pcodigo");
-        cons.setParameter("pcodigo", codigo);
+    public Usuario getUsuarioByCodigo(Integer codigo){
         try {
-            return (Usuario) cons.getSingleResult();
+            return funcoesgeraiscontrole.getUsuarioByCodigo(codigo);
         } catch (Exception e) {
             return null;
         }

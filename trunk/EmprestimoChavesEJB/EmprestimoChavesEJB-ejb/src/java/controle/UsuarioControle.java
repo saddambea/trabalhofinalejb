@@ -30,8 +30,6 @@ public class UsuarioControle{
         return conexao.listarTodos(Usuario.class);
     }
 
-
-
     public Boolean excluir(Usuario usuario) {
         try {
             conexao.excluir(usuario);
@@ -65,10 +63,14 @@ public class UsuarioControle{
 
     public List<Autorizacao> getAutorizacoes(Usuario usuario) {
        List<Autorizacao> lista = new ArrayList<Autorizacao>();
-       for(Autorizacao aut : conexao.listarTodos(Autorizacao.class)){
-           if(aut.getUsuario().getId() == usuario.getId()){
-             lista.add(aut);
-           }
+       List<Autorizacao> todas =  new ArrayList<Autorizacao>();
+       todas = conexao.listarTodos(Autorizacao.class);
+       for(Autorizacao aut : todas){
+           if (aut.getUsuario() != null){
+            if(aut.getUsuario().getId() == usuario.getId()){
+                 lista.add(aut);
+               }
+           } 
        }
        return lista;
     }

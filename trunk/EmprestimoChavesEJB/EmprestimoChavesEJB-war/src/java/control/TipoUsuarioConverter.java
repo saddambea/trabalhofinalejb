@@ -6,13 +6,18 @@ package control;
 
 import controle.TipoUsuarioControle;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import modelo.TipoUsuario;
 
-@FacesConverter(forClass = TipoUsuario.class)
+@FacesConverter(value = "tipoUsuarioConverter")
+@ManagedBean
+@RequestScoped
+
 public class TipoUsuarioConverter implements Converter {
     @EJB
     TipoUsuarioControle tipousuariocontrole;
@@ -33,4 +38,6 @@ public class TipoUsuarioConverter implements Converter {
 // categoria é representada pelo seu ID
         return Integer.toString(tip.getId());
     }
+    
+    
 }

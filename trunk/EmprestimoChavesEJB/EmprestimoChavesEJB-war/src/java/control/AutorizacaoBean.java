@@ -32,7 +32,7 @@ public class AutorizacaoBean {
     private Autorizacao autorizacao = new Autorizacao();
     private Chave chave;
     
-    private static List<Autorizacao> autorizacoes = new ArrayList<Autorizacao>();
+    private List<Autorizacao> autorizacoes = new ArrayList<Autorizacao>();
     private static int autorizacaoId = 1;
     private boolean salvo = false;
     private String mensagem;
@@ -122,5 +122,7 @@ public class AutorizacaoBean {
     public void setChave(Chave chave) {
         this.chave = chave;
     }
+    
+    
     
 }

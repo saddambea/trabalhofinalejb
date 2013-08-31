@@ -5,7 +5,6 @@
 package controle;
 
 import dao.JPADAOXX;
-import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,7 +21,7 @@ public class ChaveControle{
      * Creates a new instance of ChaveControle
      */
     @EJB
-    private dao.JPADAOXX conexao;
+    private JPADAOXX conexao;
 
 
 
@@ -32,7 +31,8 @@ public class ChaveControle{
 
 
     public Chave getChave(Integer id) {
-        return conexao.procurar(Chave.class, id);
+        Chave c = conexao.procurar(Chave.class, id);
+        return c;
     }
 
     public Boolean excluir(Chave chave) {
