@@ -12,11 +12,30 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 
+
+@NamedQueries(
+      {@NamedQuery(name = "emprestimos.listarativos",
+                   query="select e from Emprestimo e where e.dataDevolucao is null"),
+
+       @NamedQuery(name = "emprestimos.listarchave",
+                   query="select e.chave from Emprestimo e where e.dataDevolucao is null"),
+
+        
+
+        @NamedQuery(name = "emprestimos.usuario",
+                   query="select e from Emprestimo e where e.usuario = :usuario")
+
+        }
+
+ 
+)
 /**
  *
  * @author daniel

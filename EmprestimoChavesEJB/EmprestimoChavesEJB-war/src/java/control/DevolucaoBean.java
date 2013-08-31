@@ -5,12 +5,13 @@
 package control;
 
 
-import dao.JPADAO;
+import controle.EmprestimoControle;
 import javax.faces.bean.ManagedBean;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.Query;
 import modelo.Emprestimo;
@@ -41,6 +42,10 @@ public class DevolucaoBean {
     
     private String mensagem;
     
+    @EJB
+    private EmprestimoControle emprestimocontrole;
+    
+    
     public boolean isSalvo() {
         return salvo;
     }
@@ -54,9 +59,7 @@ public class DevolucaoBean {
     }
 
     public List<Emprestimo> getEmprestimos() {
-        Query cons = null;//JPADAO.getInstancia().getEM().createQuery("Select c from Emprestimo c where c.dataDevolucao is null");
-        DevolucaoBean.emprestimos = cons.getResultList();
-        return  DevolucaoBean.emprestimos;
+        return emprestimocontrole.getEmprestimosAtivos();
     }
 
     public void setEmprestimos(List<Emprestimo> emprestimos) {
@@ -88,6 +91,7 @@ public class DevolucaoBean {
     }
 
     public String editar(Emprestimo oEmprestimo) {
+        //this.emprestimo = emprestimocontrole.   
         //this.emprestimo = JPADAO.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
         salvo = false;
         return "emprestimocad";

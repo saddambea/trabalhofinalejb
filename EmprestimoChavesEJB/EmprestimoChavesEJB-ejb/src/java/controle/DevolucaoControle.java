@@ -4,6 +4,9 @@
  */
 package controle;
 
+import dao.ChaveDAO;
+import dao.DevolucaoDAO;
+import dao.EmprestimoDAO;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -23,45 +26,69 @@ public class DevolucaoControle{
      * Creates a new instance of EmprestimoBean
      */
     @EJB
-    private dao.JPADAO conexao;
+    private DevolucaoDAO devolucaoDAO;
+    
+    @EJB
+    private ChaveDAO chaveDAO;
+    
+    @EJB
+    private EmprestimoDAO emprestimoDAO;
 
     public List<Emprestimo> getEmprestimos() {
-        return  conexao.listarTodos(Emprestimo.class);
+        try {
+            return  devolucaoDAO.listarTodos();
+        } catch (Exception e) {
+            return null;
+        }
+        
     }
 
-    
-
     public Emprestimo getEmprestimo(Integer id) {
-        return conexao.procurar(Emprestimo.class, id);
+        try {
+            return devolucaoDAO.carregar(id);
+        } catch (Exception e) {
+            return null;
+        }
+        
     }
 
     
     public List<Chave> getChaves(Autorizacao autorizacao) {        
-        return conexao.listarTodos(Chave.class);
+        try {
+            return chaveDAO.listarTodos();
+        } catch (Exception e) {
+            return null;
+        }
+        
     }
 
-    
-
-    
     
     public boolean excluir(Emprestimo oEmprestimo) {
-        conexao.excluir(oEmprestimo);
-        return true;
+        try {
+            devolucaoDAO.excluir(oEmprestimo);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+        
+        
     }
-
     
     public List<Emprestimo> devolucao(){        
-        String[] fields = {"e.dataDevolucao"};
-        String[] values = {"is null"};
-        return  conexao.listar(Emprestimo.class, fields,values);
+        
+        try {
+            return  emprestimoDAO.listarTodosAtivos();
+        } catch (Exception e) {
+            return null;
+        }
+        
         
     }
     
     public boolean devolver(Emprestimo oEmprestimo){
-      oEmprestimo.setDataDevolucao(new Date(System.currentTimeMillis()));
-      Emprestimo emprestimo = conexao.procurar(Emprestimo.class, oEmprestimo.getId());
+       oEmprestimo.setDataDevolucao(new Date(System.currentTimeMillis()));
         try {
-            conexao.salvar(oEmprestimo);
+            emprestimoDAO.salvar(oEmprestimo);
             return true;
         } catch (Exception e) {
             return false;
@@ -70,7 +97,7 @@ public class DevolucaoControle{
 
     public Emprestimo buscarEmprestimo(int idEmprestimo) {
         try {
-          return conexao.procurar(Emprestimo.class, idEmprestimo);
+          return emprestimoDAO.carregar(idEmprestimo);
         } catch (Exception e) {
             return null;
         }

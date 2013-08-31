@@ -47,8 +47,7 @@
             <div id="cabecalho" style="width: 100%">
                 <h:form>
                     <p:menubar>
-                        <p:submenu label="#{i18n['template.submenu.cadastro.title']}">
-                            <p:menuitem value="#{i18n['template.submenu.menuitem.autorizacao']}" ajax="false" action="#{autorizacaoBean.novo()}" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permAutorizacao}"/>
+                        <p:submenu label="#{i18n['template.submenu.cadastro.title']}">                            
                             <p:menuitem value="#{i18n['template.submenu.menuitem.chaves']}" ajax="false" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permChave}" action="#{chaveBean.novo()}"/>
                             <p:menuitem value="#{i18n['template.submenu.menuitem.usuarios']}" ajax="false" action="#{usuarioBean.novo()}" disabled="#{!autenticacaoAutorizacaoBean.usuario.tipo.permUsuario}"/>
                         </p:submenu>

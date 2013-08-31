@@ -21,9 +21,21 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 @NamedQueries(
-        @NamedQuery(name = "autorizacao.listar",
-                    query="select a from Autorizacao a where a.id = (:codigo) and a.dataInicio = (:dataInicio)")
-        )
+        {@NamedQuery(name = "autorizacao.listar",
+                    query="select a from Autorizacao a")
+        ,
+
+        @NamedQuery(name = "autorizacao.usuario",
+                    query="select a from Autorizacao a where a.usuario = (:usuario)"),
+        
+        @NamedQuery(name = "autorizacao.chavesusuario",
+                    query="Select a.chave From Autorizacao a where a.usuario.codigo = :pcodigo " + 
+                          " and (a.dataFim is null or a.dataFim > :pdata)  and " + 
+                           " not exists (Select e From Emprestimo e Where e.chave = a.chave and e.dataDevolucao is null)")
+        
+    }        
+  )
+
 
 
 /**
