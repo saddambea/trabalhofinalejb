@@ -18,7 +18,7 @@ import modelo.Usuario;
 @Stateless
 public class FuncoesGeraisControle{
     @EJB
-    private dao.JPADAOXX conexao;
+    private dao.JPADAO conexao;
 
     /**
      * Creates a new instance of FuncoesGeraisControle

@@ -4,7 +4,8 @@
  */
 package controle;
 
-import dao.JPADAOXX;
+import dao.ChaveDAO;
+import dao.JPADAO;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -21,17 +22,18 @@ public class ChaveControle{
      * Creates a new instance of ChaveControle
      */
     @EJB
-    private JPADAOXX conexao;
+    private JPADAO conexao;
 
+    @EJB
+    private ChaveDAO chaveDAO;
 
-
-    public List<Chave> getChaves() {
+    public List<Chave> getChaves() {       
         return  conexao.listarTodos(Chave.class);
     }
 
 
-    public Chave getChave(Integer id) {
-        Chave c = conexao.procurar(Chave.class, id);
+    public Chave getChave(Integer id) throws Exception {
+        Chave c = chaveDAO.carregar(id);
         return c;
     }
 

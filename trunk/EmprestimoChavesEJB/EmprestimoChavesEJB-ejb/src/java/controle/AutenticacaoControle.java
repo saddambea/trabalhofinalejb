@@ -4,7 +4,7 @@
  */
 package controle;
 
-import dao.JPADAOXX;
+import dao.JPADAO;
 
 
 import javax.ejb.EJB;
@@ -21,7 +21,7 @@ public class AutenticacaoControle{
 // referência para um objeto que representa
 // o usuário autenticado
     @EJB
-    private JPADAOXX conexao;
+    private JPADAO conexao;
 
     public AutenticacaoControle() {
         System.out.println("Iniciou o autenticacaoControle");

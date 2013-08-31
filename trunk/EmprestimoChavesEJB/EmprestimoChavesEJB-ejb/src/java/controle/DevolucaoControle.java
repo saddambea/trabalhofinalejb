@@ -23,7 +23,7 @@ public class DevolucaoControle{
      * Creates a new instance of EmprestimoBean
      */
     @EJB
-    private dao.JPADAOXX conexao;
+    private dao.JPADAO conexao;
 
     public List<Emprestimo> getEmprestimos() {
         return  conexao.listarTodos(Emprestimo.class);
