@@ -4,11 +4,9 @@
  */
 package controle;
 
-import dao.JPADAO;
+import dao.AutenticacaoDAO;
 import dao.TipoUsuarioDAO;
 import dao.UsuarioDAO;
-
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import modelo.TipoUsuario;
@@ -20,9 +18,11 @@ public class AutenticacaoControle{
 // referência para um objeto que representa
 // o usuário autenticado
     @EJB
-    private JPADAO conexao;
+    private AutenticacaoDAO autdao;
+    
     @EJB
     private UsuarioDAO usuarioDAO;
+    
     @EJB
     private TipoUsuarioDAO tipoUsuarioDAO;
 
@@ -33,7 +33,6 @@ public class AutenticacaoControle{
     
     
     public boolean login(Integer codigo, Integer senha) throws Exception{
-        
         if(usuarioDAO.listarTodos().isEmpty()){
             //Adicionar automaticamente os tipos de 
             TipoUsuario tipoA = new TipoUsuario("Administrador", true, true, true, false, false, true);

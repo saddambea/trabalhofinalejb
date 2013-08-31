@@ -4,7 +4,7 @@
  */
 package controle;
 
-import dao.JPADAO;
+import dao.AutorizacaoDAO;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,7 +22,7 @@ public class AutorizacaoControle{
      * Creates a new instance of UsuarioBean
      */
     @EJB
-    JPADAO conexao;
+    AutorizacaoDAO autDAO;
     
 
  
@@ -30,22 +30,39 @@ public class AutorizacaoControle{
     }
 
     public List<Autorizacao> getAutorizacoes() {
-        return conexao.listarTodos(Autorizacao.class);
+        try {
+            return autDAO.listarTodos();
+        } catch (Exception e) {
+            return null;
+        }
+        
     }
 
 
     public Autorizacao getAutorizacao(Integer id) {        
-        return conexao.procurar(Autorizacao.class, id);
+        try {
+            return autDAO.carregar(id);
+        } catch (Exception e) {
+            return null;
+        }
+        
     }
 
     
     public boolean inserir(Autorizacao autorizacao){
-        conexao.salvar(autorizacao);
-        return true;
+        try {
+         autDAO.salvar(autorizacao);
+         return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     public boolean excluir(Autorizacao oAutorizacao) {
-        conexao.excluir(oAutorizacao);
+        try {
+            autDAO.excluir(oAutorizacao);
+        } catch (Exception e) {
+        }
         return true;      
         
     }

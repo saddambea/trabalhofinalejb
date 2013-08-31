@@ -13,7 +13,8 @@ import javax.persistence.Query;
  * @author Fernando dos Santos
  */
 
-@Stateless()
+
+@Stateless
 public class JPADAO {
     
     @PersistenceContext

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
-import javax.persistence.Query;
 import modelo.Chave;
 
 /**
@@ -101,7 +100,7 @@ public class ChaveBean {
         for (Chave cat : chaves) {
             if (cat.getId() == idChave) {
                 return cat;
-            }
+            } 
         }
         return null;
     }
