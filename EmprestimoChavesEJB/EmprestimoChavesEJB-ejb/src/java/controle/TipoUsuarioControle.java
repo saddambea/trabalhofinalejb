@@ -18,17 +18,19 @@ import javax.ejb.Stateless;
 public class TipoUsuarioControle{
     @EJB
     private dao.JPADAO conexao;
+    @EJB
+    private dao.TipoUsuarioDAO tipoUsuarioDAO;
     /**
      * Creates a new instance of CategoriaBean
      */
-    public List<TipoUsuario> getTipoUsuarios() {
-        return conexao.listarTodos(TipoUsuario.class);
+    public List<TipoUsuario> getTipoUsuarios() throws Exception{
+        return tipoUsuarioDAO.listarTodos();
     }
 
 
-    public boolean excluir(TipoUsuario oTipoUsuario) {
+    public boolean excluir(TipoUsuario oTipoUsuario) throws Exception{
         try {
-           conexao.excluir(oTipoUsuario);
+           tipoUsuarioDAO.excluir(oTipoUsuario);
            return true;
         } catch (Exception e) {
             return false;
@@ -36,8 +38,8 @@ public class TipoUsuarioControle{
         
     }
 
-    public TipoUsuario buscarTipoUsuario(int idTipoUsuario) {
-        return conexao.procurar(TipoUsuario.class, idTipoUsuario);
+    public TipoUsuario buscarTipoUsuario(int idTipoUsuario) throws Exception{
+        return tipoUsuarioDAO.carregar(idTipoUsuario);
     }
     
     

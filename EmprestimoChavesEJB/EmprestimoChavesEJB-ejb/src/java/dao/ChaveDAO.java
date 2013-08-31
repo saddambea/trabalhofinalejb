@@ -5,12 +5,10 @@
 package dao;
 
 import java.util.List;
+import javax.ejb.Stateless;
 import modelo.Chave;
 
-/**
- *
- * @author abaehr
- */
+@Stateless
 public class ChaveDAO extends DAOBase<Chave> {
 
     public ChaveDAO() {

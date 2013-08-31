@@ -123,11 +123,11 @@ public class JPADAO {
         return  (T) cons.getSingleResult();    
     }
     
-    public <T> T buscarSimples(Class<T> classe, String field, Object value){
+    /*public <T> T buscarSimples(Class<T> classe, String field, Object value){
         Query cons = em.createQuery("Select o from " + classe.getName() + " o where o." + field + " = :p" + field);        
         cons.setParameter("p"+field, value);
         return (T)cons.getSingleResult();
-    }
+    }*/
     
     public <T> List<T> listarNamedQuery(String nome, Map<String, Object> params) {
         Query cons;        
@@ -137,6 +137,17 @@ public class JPADAO {
         cons.setParameter(key, params.get(key));
       
       return cons.getResultList();
+      
+    }
+    
+    public <T> T listarNamedQueryUnico(String nome, Map<String, Object> params) {
+      Query cons;        
+      
+      cons = getEM().createNamedQuery(nome);
+      for (String key:params.keySet())
+        cons.setParameter(key, params.get(key));
+      
+      return (T) cons.getSingleResult();
       
     }
 }

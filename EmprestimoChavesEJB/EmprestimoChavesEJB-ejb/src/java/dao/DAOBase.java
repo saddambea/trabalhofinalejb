@@ -7,10 +7,7 @@ package dao;
 import java.util.List;
 import javax.ejb.EJB;
 
-/**
- *
- * @author abaehr
- */
+
 public abstract class DAOBase<T> {
     
     @EJB
@@ -38,5 +35,10 @@ public abstract class DAOBase<T> {
     public void excluir(T obj) throws Exception{
         dao.excluir(obj);
     }
+    
+    public T buscar(String[] fields, String[] values) throws Exception{
+        return (T) dao.buscar(clazz, fields, values);
+    }
+    
     
 }
