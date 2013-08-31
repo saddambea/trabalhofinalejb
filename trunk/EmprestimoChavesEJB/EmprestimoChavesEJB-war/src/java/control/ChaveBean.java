@@ -43,7 +43,7 @@ public class ChaveBean {
         super();
     }
 
-    public List<Chave> getChaves() {
+    public List<Chave> getChaves() throws Exception{
         
         ChaveBean.chaves = chavecontrole.getChaves();
         return  ChaveBean.chaves;
@@ -73,18 +73,18 @@ public class ChaveBean {
         return "chavecad";
     }
 
-    public String excluir(Chave oChave) {
+    public String excluir(Chave oChave) throws Exception{
         //JPADAO.getInstancia().excluir(oChave);
         chavecontrole.excluir(oChave);
         return "chavelist";
     }
 
-    public String excluir() {
+    public String excluir() throws Exception{
         chavecontrole.excluir(chave);
         return "chavelist";
     }
 
-    public String salvar() {
+    public String salvar() throws Exception{
         System.out.println("Chave salvo: " + chave.getSigla());
         chavecontrole.salvar(chave);
         salvo = true;
