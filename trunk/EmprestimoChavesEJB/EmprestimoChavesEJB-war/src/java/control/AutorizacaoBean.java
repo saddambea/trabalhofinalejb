@@ -1,0 +1,126 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control;
+
+import controle.AutorizacaoControle;
+import javax.faces.bean.ManagedBean;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.faces.bean.SessionScoped;
+import modelo.Usuario;
+import modelo.Chave;
+import modelo.Autorizacao;
+
+/**
+ *
+ * @author dflenzi
+ */
+@ManagedBean
+@SessionScoped
+public class AutorizacaoBean {
+
+    /**
+     * Creates a new instance of UsuarioBean
+     */
+    @EJB
+    private AutorizacaoControle autorizacaocontrole;
+    private Usuario usuario;
+    private Autorizacao autorizacao = new Autorizacao();
+    private Chave chave;
+    
+    private static List<Autorizacao> autorizacoes = new ArrayList<Autorizacao>();
+    private static int autorizacaoId = 1;
+    private boolean salvo = false;
+    private String mensagem;
+    
+
+    public boolean isSalvo() {
+        return salvo;
+    }
+
+    public void setSalvo(boolean salvo) {
+        this.salvo = salvo;
+    }
+
+    public AutorizacaoBean() {
+    }
+
+    public List<Autorizacao> getAutorizacoes() {
+        return autorizacaocontrole.getAutorizacoes();
+    }
+
+
+    public Autorizacao getAutorizacao() {        
+        return autorizacao;
+    }
+
+    public void setAutorizacao(Autorizacao autorizacao) {
+        this.autorizacao = autorizacao;
+    }
+
+    public String novo() {
+        this.autorizacao = new Autorizacao();
+        this.salvo = false;
+        return "autorizacaocad";
+    }
+    
+    public String novo(Usuario oUsuario) {
+        this.autorizacao = new Autorizacao();
+        this.autorizacao.setUsuario(oUsuario);
+        this.salvo = false;
+        return "autorizacaocad";
+    }
+    
+
+    public String editar(Autorizacao oAutorizacao) {
+        this.autorizacao = autorizacaocontrole.getAutorizacao(oAutorizacao.getId());                
+        salvo = false;
+        return "autorizacaocad";
+    }
+    
+
+    public String excluir(Autorizacao oAutorizacao) {
+        autorizacaocontrole.excluir(oAutorizacao);
+        return "autorizacaolist";
+    }
+
+    public String salvar() {
+        System.out.println("Autorização salva: " + autorizacao.toString());
+        try {        
+            
+            autorizacaocontrole.inserir(autorizacao);
+            this.salvo = true;
+            
+        } catch (Exception e) {
+            this.salvo = false;            
+        }
+        return "manutencaousuariolist";
+    }
+
+    public String cancelar() {
+        this.salvo = false;
+        return "manutencaousuariolist";
+    }
+    
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Chave getChave() {
+        return chave;
+    }
+
+    public void setChave(Chave chave) {
+        this.chave = chave;
+    }
+    
+}

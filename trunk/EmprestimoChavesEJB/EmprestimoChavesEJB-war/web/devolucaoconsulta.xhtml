@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">   
+    <h:head>
+        <title>#{i18n['devolucaoconsulta.head.title']}</title>        
+    </h:head>
+    <h:body>
+        <ui:composition template="template.xhtml">
+            <ui:define name="conteudo">
+                <p:panel header="#{i18n['devolucaoconsulta.panel.header']}">
+                    <h:form>
+                        <h:outputText value="#{autenticacaoAutorizacaoBean.usuario.tipo.descricao}  :  #{autenticacaoAutorizacaoBean.usuario.nome}"/> 
+                        <hr/>
+                    </h:form>
+
+                </p:panel>
+                <p:panel header="#{i18n['devolucaoconsulta.panel.emprestimoativo.header']}">
+                    <h:form onsubmit="dlgdevolucao.show();">
+                        <p:dataTable value="#{devolucaoBean.emprestimos}" var="umEmprestimo"
+                                     emptyMessage="#{i18n['devolucaoconsulta.dataTable.emptyMessage']}">
+                            <p:column headerText="#{i18n['listaautorizacao.dataTable.column.chave']}">
+                                <h:outputText value="#{umEmprestimo.chave.sigla}"/>
+                            </p:column>
+                            <p:column headerText="#{i18n['devolucaoconsulta.dataTable.column.usuario.headerText']}">
+                                <h:outputText value="#{umEmprestimo.usuario.nome}"/>
+                            </p:column>
+                            
+                            <p:column headerText="#{i18n['devolucaoconsulta.dataTable.column.dataemprestimo.headerText']}">
+                                <h:outputText value="#{funcoesGeraisBean.getDataHora(umEmprestimo.dataEmprestimo)}"/>
+                            </p:column>
+                            <p:column headerText="#{i18n['generico.dataTable.column.acoes.title']}">
+                                    <p:commandButton image="ui-icon ui-icon-transferthick-e-w"  
+                                                     value="#{i18n['devolucaoconsulta.commandButton.devolver.value']}" 
+                                                     ajax="false" 
+                                                     action="#{devolucaoBean.devolver(umEmprestimo)}"/>
+                                                 
+                                    
+                            </p:column>
+                            
+                        </p:dataTable>
+                        <p:dialog id="dialogdevolucao"
+                                  widgetVar="dlgdevolucao"
+                                  header="#{i18n['devolucaoconsulta.dialog.cabecalho']}"
+                                  closable="false"
+                                  modal="true"
+                                  visible="#{devolucaoBean.salvo}"  >
+                            
+                            <h:outputFormat value="#{i18n['devolucaoconsulta.dialog.texto.usuario']}">                                
+                                <f:param value="#{devolucaoBean.emprestimo.usuario.nome}"/>                                
+                            </h:outputFormat>
+                            <br/>
+                            <h:outputFormat value="#{i18n['devolucaoconsulta.dialog.texto.chave']}">
+                                <f:param value="#{devolucaoBean.emprestimo.chave.sigla}"/>                                
+                            </h:outputFormat>
+                            <br/>
+                            <p:commandButton image="ui-icon ui-icon-close"  
+                                             value="#{i18n['emprestimoconsulta.dialog.fechar']}" 
+                                             ajax="false" 
+                                             action="#{devolucaoBean.devolucao()}"/>                    
+                        </p:dialog>                    
+                        
+                    </h:form>    
+                    
+                </p:panel>
+                
+            </ui:define>
+        </ui:composition>    
+    </h:body>
+</html>
+

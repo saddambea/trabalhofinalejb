@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>#{i18n['listaautorizacao.head.title']}</title>        
+    </h:head>
+    <h:body>
+        <ui:composition template="template.xhtml">
+            <ui:define name="conteudo">
+
+                <p:panel header="#{i18n['listaautorizacao.panel.header']}">
+                    <h:form>
+                        <p:dataTable value="#{autorizacaoBean.autorizacoes}" var="umAutorizacao"
+                                     emptyMessage="#{i18n['listaautorizacao.dataTable.emptyMessage']}">
+                            <!--<p:column headerText="Usuário">
+                                <h:outputText value="#{umAutorizacao.usuario.nome}"/>
+                            </p:column>-->
+                            
+                            <p:column headerText="#{i18n['listaautorizacao.dataTable.column.chave']}">
+                                <h:outputText value="#{umAutorizacao.chave.sigla}"/>
+                            </p:column>
+                            
+                            <p:column headerText="#{i18n['listaautorizacao.dataTable.column.dtinicio']}">
+                                <h:outputText value="#{funcoesGeraisBean.getData(umAutorizacao.dataInicio)}"/>
+                            </p:column>
+
+                            <p:column headerText="#{i18n['listaautorizacao.dataTable.column.dtfim']}">
+                                <h:outputText value="#{funcoesGeraisBean.getData(umAutorizacao.dataFim)}"/>
+                            </p:column>
+
+                            <p:column headerText="#{i18n['generico.dataTable.column.acoes.title']}">
+                                <p:commandButton image="ui-icon ui-icon-pencil" title="#{i18n['generico.dataTable.column.button.editar.title']}"
+                                                 ajax="false" action="#{autorizacaoBean.editar(umAutorizacao)}"/>
+                                <p:commandButton image="ui-icon ui-icon-close" title="#{i18n['generico.dataTable.column.button.excluir.title']}"
+                                                 ajax="true" onclick="dlgConfExcluir.show();">
+                                    <f:setPropertyActionListener value="#{umAutorizacao}"
+                                                                 target="#{autorizacaoBean.usuario}"/>
+                                </p:commandButton>
+                            </p:column>                
+                        </p:dataTable>
+
+                        <p:confirmDialog message="#{i18n['listaautorizacao.confirmDialog.message']}" width="400"
+                                         header="#{i18n['listaautorizacao.confirmDialog.header']}" severity="alert" widgetVar="dlgConfExcluir">
+                            <p:commandButton value="#{i18n['generico.button.sim.label']}" ajax="false"
+                                             action="#{autorizacaoBean.excluir(umAutorizacao)}" />
+                            <p:commandButton value="#{i18n['generico.button.nao.label']}" type="button"
+                                             onclick="dlgConfExcluir.hide()" />
+                        </p:confirmDialog>
+                    </h:form>
+                </p:panel>
+            </ui:define>
+        </ui:composition>                  
+    </h:body>
+</html>
+
