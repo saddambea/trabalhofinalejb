@@ -21,7 +21,9 @@ public class ChaveControle{
     @EJB
     private ChaveDAO chaveDAO;
 
-    public List<Chave> getChaves() { 
+
+
+    public List<Chave> getChaves() throws Exception{ 
         try {
           return  chaveDAO.listarTodos();
         } catch (Exception e) {
@@ -29,6 +31,7 @@ public class ChaveControle{
         }
         
         
+
     }
 
 
@@ -36,7 +39,7 @@ public class ChaveControle{
         return chaveDAO.carregar(id);
     }
 
-    public Boolean excluir(Chave chave) {
+    public Boolean excluir(Chave chave) throws Exception {
         try {
             chaveDAO.excluir(chave);
             return true;
@@ -48,7 +51,7 @@ public class ChaveControle{
         
     }
 
-    public boolean salvar(Chave chave) {
+    public boolean salvar(Chave chave) throws Exception {
         try {
             chaveDAO.salvar(chave);
             return true;
@@ -57,6 +60,7 @@ public class ChaveControle{
         }
         
         
+
     }
 
 
