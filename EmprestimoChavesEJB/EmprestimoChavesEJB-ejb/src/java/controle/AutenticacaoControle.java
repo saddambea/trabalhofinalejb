@@ -9,7 +9,6 @@ import dao.JPADAOXX;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.Query;
 import modelo.TipoUsuario;
 import modelo.Usuario;
 /**
@@ -32,8 +31,6 @@ public class AutenticacaoControle{
     
     public boolean login(Integer codigo, Integer senha) {
         
-        Query cons  = conexao.getEM().createQuery("Select u from Usuario u");
-
         if(conexao.listarTodos(Usuario.class).isEmpty()){
             //Adicionar automaticamente os tipos de 
             TipoUsuario tipoA = new TipoUsuario("Administrador", true, true, true, false, false, true);
@@ -68,9 +65,7 @@ public class AutenticacaoControle{
     }
     
     
-    public Usuario getUsuario(Integer codigo, Integer senha){
-        Query cons;
-        
+    public Usuario getUsuario(Integer codigo, Integer senha){        
         String[] fields = {"codigo", "senha"};
         String[] values = {String.valueOf(codigo), String.valueOf(senha)}; 
         
