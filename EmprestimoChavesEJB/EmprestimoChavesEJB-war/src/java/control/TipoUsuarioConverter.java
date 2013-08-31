@@ -5,6 +5,8 @@
 package control;
 
 import controle.TipoUsuarioControle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -27,7 +29,12 @@ public class TipoUsuarioConverter implements Converter {
 // pegar o ID do tipo, recebido pelo ‘value'
         int idTipo = Integer.parseInt(value);
 // buscar a categoria no CategoriaBean, via método estático
-        TipoUsuario tip = tipousuariocontrole.buscarTipoUsuario(idTipo);
+        TipoUsuario tip = null;
+        try {
+            tip = tipousuariocontrole.buscarTipoUsuario(idTipo);
+        } catch (Exception ex) {
+            Logger.getLogger(TipoUsuarioConverter.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return tip;
     }
 

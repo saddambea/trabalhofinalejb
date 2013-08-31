@@ -5,7 +5,7 @@
 package control;
 
 import controle.UsuarioControle;
-import dao.JPADAOXX;
+import dao.JPADAO;
 import javax.faces.bean.ManagedBean;
 import modelo.Usuario;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class UsuarioBean {
     public UsuarioBean() {
     }
 
-    public List<Usuario> getUsuarios() {        
+    public List<Usuario> getUsuarios() throws Exception{        
         return usuariocontrole.getUsuarios();
     }
 
@@ -73,7 +73,7 @@ public class UsuarioBean {
         return "usuariocad";
     }
 
-    public String editar(Usuario oUsuario) {     
+    public String editar(Usuario oUsuario) throws Exception{     
         
         this.usuario = usuariocontrole.buscarUsuario(oUsuario.getId());
         salvo = false;
@@ -109,7 +109,7 @@ public class UsuarioBean {
         return "manutencaousuariolist";
     }
     
-    public List<Autorizacao> getAutorizacoes() {               
+    public List<Autorizacao> getAutorizacoes() throws Exception{               
         autorizacoes = usuariocontrole.getAutorizacoes(usuario);
         return autorizacoes;
     }

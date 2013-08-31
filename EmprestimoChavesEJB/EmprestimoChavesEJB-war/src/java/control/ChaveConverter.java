@@ -5,6 +5,8 @@
 package control;
 
 import controle.ChaveControle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -29,7 +31,12 @@ public class ChaveConverter implements Converter {
         // pegar o ID da chave, recebido pelo ‘value'
         int idChave = Integer.parseInt(value);
       // buscar a chave no ChaveBean, via método estático
-        Chave c = chavecontrole.getChave(idChave);
+        Chave c = null;
+        try {
+            c = chavecontrole.getChave(idChave);
+        } catch (Exception ex) {
+            Logger.getLogger(ChaveConverter.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return c;
     }
 
