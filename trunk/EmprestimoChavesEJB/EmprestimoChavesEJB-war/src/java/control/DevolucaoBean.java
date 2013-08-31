@@ -5,7 +5,7 @@
 package control;
 
 
-import dao.JPADAOXX;
+import dao.JPADAO;
 import javax.faces.bean.ManagedBean;
 
 import java.util.ArrayList;
@@ -88,7 +88,7 @@ public class DevolucaoBean {
     }
 
     public String editar(Emprestimo oEmprestimo) {
-        //this.emprestimo = JPADAOXX.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
+        //this.emprestimo = JPADAO.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
         salvo = false;
         return "emprestimocad";
     }
@@ -106,7 +106,7 @@ public class DevolucaoBean {
 
     
     public String devolucao(){                
-        Query cons = null;//= JPADAOXX.getInstancia().getEM().createQuery("Select e from Emprestimo e where e.dataDevolucao is null");
+        Query cons = null;//= JPADAO.getInstancia().getEM().createQuery("Select e from Emprestimo e where e.dataDevolucao is null");
         this.salvo = false;
         emprestimos = cons.getResultList();
         return "devolucaoconsulta";
@@ -114,7 +114,7 @@ public class DevolucaoBean {
     
     public String devolver(Emprestimo oEmprestimo){
       oEmprestimo.setDataDevolucao(new Date(System.currentTimeMillis()));
-      //emprestimo = JPADAOXX.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
+      //emprestimo = JPADAO.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
         try {
             //JPADAO.getInstancia().salvar(oEmprestimo);
             this.salvo = true;

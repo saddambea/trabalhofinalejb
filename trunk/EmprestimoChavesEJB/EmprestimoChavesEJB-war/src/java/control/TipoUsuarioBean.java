@@ -44,7 +44,7 @@ public class TipoUsuarioBean {
         super();
     }
 
-    public List<TipoUsuario> getTipoUsuarios() {
+    public List<TipoUsuario> getTipoUsuarios() throws Exception {
         return tipousuariocontrole.getTipoUsuarios();
     }
 
@@ -72,7 +72,7 @@ public class TipoUsuarioBean {
         return "tipousuariocad";
     }
 
-    public String excluir(TipoUsuario oTipoUsuario) {
+    public String excluir(TipoUsuario oTipoUsuario) throws Exception {
         tipousuariocontrole.excluir(oTipoUsuario);
         return "tipousuariolist";
     }

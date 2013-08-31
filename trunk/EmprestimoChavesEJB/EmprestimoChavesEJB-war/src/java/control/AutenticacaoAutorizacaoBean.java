@@ -34,7 +34,7 @@ public class AutenticacaoAutorizacaoBean {
         autorizado=false;           
         return "principal";
     }
-    public void login() {
+    public void login() throws Exception {
         if(!autenticacaocontrole.login(usuario.getCodigo(), usuario.getSenha())){
           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,  "Usuário/Senha inválido","Não foi possível fazer login com o usuário/senha informados");
                              FacesContext.getCurrentInstance().addMessage("login", msg);

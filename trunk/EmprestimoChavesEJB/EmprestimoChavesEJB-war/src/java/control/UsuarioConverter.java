@@ -5,6 +5,8 @@
 package control;
 
 import controle.UsuarioControle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -27,7 +29,12 @@ public class UsuarioConverter implements Converter {
 // pegar o ID da chave, recebido pelo ‘value'
         int idUsuario = Integer.parseInt(value);
 // buscar a chave no ChaveBean, via método estático
-        Usuario usu = usuariocontrole.buscarUsuario(idUsuario);
+        Usuario usu = null;
+        try {
+            usu = usuariocontrole.buscarUsuario(idUsuario);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioConverter.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return usu;
     }
 
