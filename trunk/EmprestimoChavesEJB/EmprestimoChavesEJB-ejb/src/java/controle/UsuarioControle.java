@@ -4,6 +4,8 @@
  */
 package controle;
 
+import dao.AutorizacaoDAO;
+import dao.UsuarioDAO;
 import java.util.ArrayList;
 import modelo.Usuario;
 import java.util.List;
@@ -11,10 +13,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import modelo.Autorizacao;
 
-/**
- *
- * @author dflenzi
- */
+
 @Stateful
 public class UsuarioControle{
 
@@ -24,14 +23,21 @@ public class UsuarioControle{
     @EJB
     private dao.JPADAO conexao;
     
+    @EJB
+    private UsuarioDAO usuarioDAO;
+    
+    @EJB
+    private AutorizacaoDAO autorizacaoDAO;
+    
 
-    public List<Usuario> getUsuarios() {
-        return conexao.listarTodos(Usuario.class);
+    public List<Usuario> getUsuarios() throws Exception {
+        //return conexao.listarTodos(Usuario.class);
+        return usuarioDAO.listarTodos();
     }
 
     public Boolean excluir(Usuario usuario) {
         try {
-            conexao.excluir(usuario);
+            usuarioDAO.excluir(usuario);
             return true;
         } catch (Exception e) {
             return false;
@@ -41,7 +47,7 @@ public class UsuarioControle{
 
     public boolean salvar(Usuario usuario) {
         try {
-            conexao.salvar(usuario);
+            usuarioDAO.salvar(usuario);
             return true;
         } catch (Exception e) {
             return false;
@@ -50,20 +56,23 @@ public class UsuarioControle{
         
     }
 
-    public Usuario buscarUsuario(int idUsuario) {
-        return conexao.procurar(Usuario.class, idUsuario);
+    public Usuario buscarUsuario(int idUsuario) throws Exception{
+        //return conexao.procurar(Usuario.class, idUsuario);
+        return usuarioDAO.carregar(idUsuario);
     }
 
    
     
     public Usuario getUsuarioByCodigo(int codigo){        
-        return conexao.buscarSimples(Usuario.class, "codigo", codigo);
+        //return conexao.buscarSimples(Usuario.class, "codigo", codigo);
+        return usuarioDAO.buscarSimples(codigo);
     }
 
-    public List<Autorizacao> getAutorizacoes(Usuario usuario) {
+    public List<Autorizacao> getAutorizacoes(Usuario usuario) throws Exception{
        List<Autorizacao> lista = new ArrayList<Autorizacao>();
        List<Autorizacao> todas =  new ArrayList<Autorizacao>();
-       todas = conexao.listarTodos(Autorizacao.class);
+       //todas = conexao.listarTodos(Autorizacao.class);
+       todas = autorizacaoDAO.listarTodos();
        for(Autorizacao aut : todas){
            if (aut.getUsuario() != null){
             if(aut.getUsuario().getId() == usuario.getId()){

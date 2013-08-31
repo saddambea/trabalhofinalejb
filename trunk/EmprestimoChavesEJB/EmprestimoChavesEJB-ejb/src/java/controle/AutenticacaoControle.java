@@ -5,16 +5,15 @@
 package controle;
 
 import dao.JPADAO;
+import dao.TipoUsuarioDAO;
+import dao.UsuarioDAO;
 
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import modelo.TipoUsuario;
 import modelo.Usuario;
-/**
- *
- * @author dflenzi
- */
+
 @Stateless
 public class AutenticacaoControle{
 
@@ -22,6 +21,10 @@ public class AutenticacaoControle{
 // o usuário autenticado
     @EJB
     private JPADAO conexao;
+    @EJB
+    private UsuarioDAO usuarioDAO;
+    @EJB
+    private TipoUsuarioDAO tipoUsuarioDAO;
 
     public AutenticacaoControle() {
         System.out.println("Iniciou o autenticacaoControle");
@@ -29,26 +32,26 @@ public class AutenticacaoControle{
 
     
     
-    public boolean login(Integer codigo, Integer senha) {
+    public boolean login(Integer codigo, Integer senha) throws Exception{
         
-        if(conexao.listarTodos(Usuario.class).isEmpty()){
+        if(usuarioDAO.listarTodos().isEmpty()){
             //Adicionar automaticamente os tipos de 
             TipoUsuario tipoA = new TipoUsuario("Administrador", true, true, true, false, false, true);
-            conexao.salvar(tipoA);
+            tipoUsuarioDAO.salvar(tipoA);
             TipoUsuario tipoB = new TipoUsuario("Balconista", false, false, false, true, true, true);
-            conexao.salvar(tipoB);
+            tipoUsuarioDAO.salvar(tipoB);
             TipoUsuario tipoU = new TipoUsuario("Usuário", false, false, false, false, false, true);
-            conexao.salvar(tipoU); 
+            tipoUsuarioDAO.salvar(tipoU); 
             //Adicionar automaticamente usuarios
 
             Usuario usuario =  new Usuario(111111, "Administrador", "administrador@adm.com.br", 111111, tipoA);
-            conexao.salvar(usuario);
+            usuarioDAO.salvar(usuario);
 
             usuario =  new Usuario(222222, "Balconista", "balconista@furb.com.br", 222222, tipoB);
-            conexao.salvar(usuario);
+            usuarioDAO.salvar(usuario);
 
             usuario =  new Usuario(333333, "Usuario", "usuario@furb.com.br", 333333, tipoU);
-            conexao.salvar(usuario);
+            usuarioDAO.salvar(usuario);
             
         }
         
@@ -65,11 +68,11 @@ public class AutenticacaoControle{
     }
     
     
-    public Usuario getUsuario(Integer codigo, Integer senha){        
+    public Usuario getUsuario(Integer codigo, Integer senha) throws Exception{        
         String[] fields = {"codigo", "senha"};
         String[] values = {String.valueOf(codigo), String.valueOf(senha)}; 
         
-        Usuario user = conexao.buscar(Usuario.class,fields, values);                                      
+        Usuario user = usuarioDAO.buscar(fields, values);                                      
                                       
         try {
                         
@@ -90,7 +93,8 @@ public class AutenticacaoControle{
         
                                              
         try {
-            Usuario user = conexao.buscarSimples(Usuario.class, "codigo", senha);            
+            //Usuario user = conexao.buscarSimples(Usuario.class, "codigo", senha);            
+            Usuario user = usuarioDAO.buscarSimples(codigo);
             
             if(user !=null)
                 return (user.getSenha()==senha);

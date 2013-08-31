@@ -19,6 +19,8 @@ import modelo.Usuario;
 public class FuncoesGeraisControle{
     @EJB
     private dao.JPADAO conexao;
+    @EJB
+    private dao.UsuarioDAO usuarioDAO;
 
     /**
      * Creates a new instance of FuncoesGeraisControle
@@ -56,7 +58,8 @@ public class FuncoesGeraisControle{
     
     public Usuario getUsuarioByCodigo(Integer codigo){
         try {
-            return conexao.buscarSimples(Usuario.class, "codigo", codigo);
+            //return conexao.buscarSimples(Usuario.class, "codigo", codigo);
+            return usuarioDAO.buscarSimples(codigo);
         } catch (Exception e) {
             return null;
         }
