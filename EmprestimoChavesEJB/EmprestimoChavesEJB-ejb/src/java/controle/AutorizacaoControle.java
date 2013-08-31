@@ -4,7 +4,7 @@
  */
 package controle;
 
-import dao.JPADAOXX;
+import dao.JPADAO;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,7 +22,7 @@ public class AutorizacaoControle{
      * Creates a new instance of UsuarioBean
      */
     @EJB
-    JPADAOXX conexao;
+    JPADAO conexao;
     
 
  

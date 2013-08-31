@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,7 +14,8 @@ import javax.persistence.Query;
  */
 
 @Stateless()
-public class JPADAOXX {
+public class JPADAO {
+    
     @PersistenceContext
     private EntityManager em;    
 
@@ -23,7 +25,7 @@ public class JPADAOXX {
      * Logo, pode-se passar entidades em estado NEW, MANAGED, ou DETACHED.
      * @param entidade a entidade a ser salva.
      */
-    public JPADAOXX() {
+    public JPADAO() {
         System.out.println("Iniciando dao");
     }
 
@@ -125,5 +127,16 @@ public class JPADAOXX {
         Query cons = em.createQuery("Select o from " + classe.getName() + " o where o." + field + " = :p" + field);        
         cons.setParameter("p"+field, value);
         return (T)cons.getSingleResult();
+    }
+    
+    public <T> List<T> listarNamedQuery(String nome, Map<String, Object> params) {
+        Query cons;        
+      
+      cons = getEM().createNamedQuery(nome);
+      for (String key:params.keySet())
+        cons.setParameter(key, params.get(key));
+      
+      return cons.getResultList();
+      
     }
 }

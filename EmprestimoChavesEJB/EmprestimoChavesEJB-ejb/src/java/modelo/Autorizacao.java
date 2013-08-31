@@ -12,11 +12,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+
+@NamedQueries(
+        @NamedQuery(name = "autorizacao.listar",
+                    query="select a from Autorizacao a where a.id = (:codigo) and a.dataInicio = (:dataInicio)")
+        )
+
 
 /**
  *

@@ -17,7 +17,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class TipoUsuarioControle{
     @EJB
-    private dao.JPADAOXX conexao;
+    private dao.JPADAO conexao;
     /**
      * Creates a new instance of CategoriaBean
      */

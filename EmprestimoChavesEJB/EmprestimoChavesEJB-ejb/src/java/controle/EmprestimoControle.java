@@ -4,11 +4,15 @@
  */
 package controle;
 
+import dao.AutorizacaoDAO;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
+import modelo.Autorizacao;
 import modelo.Emprestimo;
 import modelo.Usuario;
 import modelo.Chave;
@@ -20,7 +24,11 @@ import modelo.Chave;
 @Stateless
 public class EmprestimoControle{
     @EJB
-    private dao.JPADAOXX conexao;
+    private dao.JPADAO conexao;
+    
+    @EJB
+    private AutorizacaoDAO autDAO;
+    
     private controle.AutenticacaoControle autenticacao;
     /**
      * Creates a new instance of EmprestimoControle
@@ -53,7 +61,16 @@ public class EmprestimoControle{
 
     
     public List<Chave> buscarChaves(Usuario oUsuario){
+      Map<String, Object> maps = new HashMap<String, Object>();
+      maps.put("codigo", 1);
+      List<Autorizacao> l =  conexao.listarNamedQuery("autorizacao.listar", maps);
+      
+      //autDAO.listarXPTO(1);
+      
       Query cons;        
+      
+      cons = conexao.getEM().createNamedQuery("autorizacao.listar");
+      cons.setParameter("codigo", 1);
       
       cons = conexao.getEM().createQuery("Select a.chave From Autorizacao a where " +
                                           " a.usuario.codigo = :pcodigo and (a.dataFim is null or a.dataFim > :pdata) "

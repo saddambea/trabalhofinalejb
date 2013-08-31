@@ -22,7 +22,7 @@ public class UsuarioControle{
      * Creates a new instance of UsuarioControle
      */
     @EJB
-    private dao.JPADAOXX conexao;
+    private dao.JPADAO conexao;
     
 
     public List<Usuario> getUsuarios() {
