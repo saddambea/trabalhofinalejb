@@ -4,7 +4,6 @@
  */
 package controle;
 
-import dao.JPADAOXX;
 import modelo.TipoUsuario;
 
 import java.util.List;

@@ -5,7 +5,6 @@
 package controle;
 
 
-import dao.JPADAOXX;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
