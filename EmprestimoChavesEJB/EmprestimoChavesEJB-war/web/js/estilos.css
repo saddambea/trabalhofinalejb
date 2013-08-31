@@ -1,0 +1,22 @@
+/* 
+    Document   : estilos
+    Created on : 22/06/2013, 14:01:46
+    Author     : dflenzi
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#conteudo{
+  
+  margin-left: auto ;
+  margin-right: auto ;    
+}
+
+#panellogin{
+  margin-left: auto;
+  margin-right: auto;    
+}

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>        
+        <title>#{i18n['chave.head.title']}</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="template.xhtml">
+            <ui:define name="conteudo">
+                <p:panel header="#{i18n['chave.panel.header']}">
+                    <h:form>
+                        <h:panelGrid columns="3">
+                            <h:outputText value="#{i18n['chave.input.sigla.text']}"/>
+                            <p:inputText id="sigla" value="#{chaveBean.chave.sigla}" required="true" 
+                                         requiredMessage="#{i18n['chave.input.sigla.requiredMessage']}"
+                                         validatorMessage="#{i18n['chave.input.sigla.validatorMessage']}">
+                                <f:validateLength minimum="3" maximum="50"/>
+                            </p:inputText>
+                            <p:message for="sigla"/>                                   
+                            
+                            <h:outputText value="Restrito"/>
+                            
+                            <p:selectBooleanCheckbox id="restrito" value="#{chaveBean.chave.restrito}" >
+                            </p:selectBooleanCheckbox>
+                            <p:message for="restrito"/>                                   
+                            
+                        </h:panelGrid>
+                        <hr/>
+                        <p:outputPanel layout="block" 
+                                       style="margin: auto; width:40%">
+
+                            <p:commandButton value="#{i18n['generico.button.salvar.label']}" ajax="false" action="#{chaveBean.salvar()}"/>
+                            <p:dialog id="confirmaSalvar"
+                                      widgetVar="dlgSalvar"
+                                      header="#{i18n['generico.confirmdialog.header']}"
+                                      closable="false"
+                                      modal="true"
+                                      visible="#{chaveBean.salvo}">
+                                <h:outputText value="#{i18n['chave.confirmdialog.inputsalvo.text']}"/><br/>
+                                <p:commandButton value="#{i18n['generico.button.fechar.label']}" ajax="false" action="#{chaveBean.cancelar()}"/>                    
+                            </p:dialog>                    
+
+                            <p:commandButton value="#{i18n['generico.button.cancelar.title']}" ajax="false" action="#{chaveBean.cancelar()}" immediate="true"/>
+                        </p:outputPanel>                
+                    </h:form>
+
+                </p:panel>
+            </ui:define>
+        </ui:composition>    
+    </h:body>
+</html>
+

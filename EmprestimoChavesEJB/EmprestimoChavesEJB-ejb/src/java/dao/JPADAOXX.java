@@ -1,8 +1,7 @@
 package dao;
 
 import java.util.List;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -13,8 +12,8 @@ import javax.persistence.Query;
  * @author Fernando dos Santos
  */
 
-@Singleton(mappedName = "JPADAO")
-public class JPADAO {
+@Stateless()
+public class JPADAOXX {
     @PersistenceContext
     private EntityManager em;    
 
@@ -24,7 +23,7 @@ public class JPADAO {
      * Logo, pode-se passar entidades em estado NEW, MANAGED, ou DETACHED.
      * @param entidade a entidade a ser salva.
      */
-    public JPADAO() {
+    public JPADAOXX() {
         System.out.println("Iniciando dao");
     }
 

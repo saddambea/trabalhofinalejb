@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>#{i18n['realizacaoemprestimos.head.title']}</title>        
+    </h:head>
+    <h:body>
+        <ui:composition template="template.xhtml">
+            <ui:define name="conteudo">
+                <p:panel header="#{i18n['realizacaoemprestimos.panel.header']}">
+                    <h:form>
+                        <h:outputText value="#{autenticacaoAutorizacaoBean.usuario.tipo.descricao}  :  #{autenticacaoAutorizacaoBean.usuario.nome}"/> 
+                        <h:panelGrid columns="4">                            
+                            <h:outputText value="#{i18n['usuario.input.codigo.label']}"/>
+                            <p:inputText id="codigo" value="#{emprestimoBean.usuario.codigo}" required="true" requiredMessage="Informe o código"
+                                         validatorMessage="#{i18n['usuario.input.codigo.validatormessage']}">
+                                <f:validateLength minimum="3" maximum="50"/>
+                            </p:inputText>
+                            <p:commandButton image="ui-icon ui-icon-search" 
+                                             value="#{i18n['generico.button.buscar.label']}" ajax="false" 
+
+                                             action="#{emprestimoBean.buscarChaves(emprestimoBean.usuario)}"/>
+                            <p:message for="codigo"/>         
+                        </h:panelGrid>
+                        <hr/>
+                    </h:form>
+
+
+                    <p:panel header="#{i18n['realizacaoemprestimos.panel.chavesdisponiveis.header']}">
+                        <h:form onsubmit="dlgemprestimo.show();">
+                        <h:panelGrid columns="4">                            
+                            <h:outputText value="#{i18n['usuario.input.nome.label']}"/>
+                            <p:inputText id="nome" value="#{emprestimoBean.usuarioBusca.nome}" 
+                                         readonly="true" disabled="true" required="true">
+                                <f:validateLength minimum="3" maximum="50"/>
+                            </p:inputText>
+                            <p:message for="nome"/>         
+                            <!--codigo-->
+                            
+                            <h:outputText value="#{i18n['usuario.input.senha.label']}"/>
+                            <p:password id="senha" value="#{emprestimoBean.usuario.senha}" required="#{emprestimoBean.autenticar}"
+                                        requiredMessage="#{i18n['usuario.input.senha.requiredMessage']}"
+                                        validatorMessage="#{i18n['usuario.input.senha.validatormessage']}">
+                                <f:validateLength minimum="6" maximum="6"/>
+
+                            </p:password>
+                            <p:message for="senha"/>         
+                            <!--senha-->
+                        </h:panelGrid>
+
+                            <p:dataTable id="multiChaves" var="umaChave" value="#{emprestimoBean.chavesModel}" 
+                                         paginator="false" rows="10"  
+                                         selection="#{emprestimoBean.chavesselecionadas}"
+                                         emptyMessage="#{i18n['realizacaoemprestimos.dataTable.emptyMessage']}">
+
+                                <f:facet name="header">  
+                                    #{i18n['realizacaoemprestimos.dataTable.facet.text']}
+
+                                </f:facet>  
+
+                                <p:column selectionMode="multiple" style="width:2%" headerText="#{i18n['realizacaoemprestimos.dataTable.column.realizaremprestimos.headerText']}" />  
+
+                                <p:column headerText="#{i18n['listaautorizacao.dataTable.column.chave']}" style="width:25%">  
+                                    #{umaChave.sigla}  
+                                </p:column>  
+
+                            </p:dataTable>  
+
+                            <p:outputPanel layout="block" 
+                                           style="margin: auto; width:40%;margin-top: 10px">
+                                <p:commandButton image="ui-icon ui-icon-circle-check" 
+                                                 value="#{i18n['emprestimoconsulta.button.finalizar']}" 
+                                                 ajax="false" 
+                                                 disabled="#{!emprestimoBean.autenticar}"
+                                                 action="#{emprestimoBean.emprestar(autenticacaoAutorizacaoBean.usuario, emprestimoBean.usuario.senha)}"
+                                                 />
+                            </p:outputPanel>                
+                            <p:dialog id="dialogemprestimo"
+                                      widgetVar="dlgemprestimo"
+                                      header="#{i18n['emprestimoconsulta.dialog.cabecalho']}"
+                                      closable="false"
+                                      modal="true"
+                                      visible="#{emprestimoBean.salvo}">
+
+                                <h:outputFormat value="#{i18n['emprestimoconsulta.dialog.texto.usuario']}">
+                                    <f:param value="#{emprestimoBean.usuarioBusca.codigo}"/>
+                                    <f:param value="#{emprestimoBean.usuarioBusca.nome}"/>                                
+                                </h:outputFormat>
+                                <br/>
+                                <h:outputFormat value="#{i18n['emprestimoconsulta.dialog.texto.chave']}">
+                                    <f:param value="#{emprestimoBean.mensagem}"/>                                
+                                </h:outputFormat>
+                                <br/>
+                                <p:commandButton image="ui-icon ui-icon-close"  
+                                                 value="#{i18n['emprestimoconsulta.dialog.fechar']}" 
+                                                 ajax="false" 
+                                                 action="#{emprestimoBean.emprestimo()}"/>                    
+                            </p:dialog>                    
+
+                        </h:form>    
+
+                    </p:panel>
+                </p:panel>
+
+            </ui:define>
+        </ui:composition>    
+    </h:body>
+</html>
+
