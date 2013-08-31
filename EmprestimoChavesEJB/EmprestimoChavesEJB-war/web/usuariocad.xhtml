@@ -47,7 +47,7 @@
                             <p:message for="senha"/>         
                             
                             <h:outputText value="#{i18n['usuario.input.tipo.label']}"/>
-                            <p:selectOneMenu id="tipo" value="#{usuarioBean.usuario.tipo}">
+                            <p:selectOneMenu id="tipo" value="#{usuarioBean.usuario.tipo}" converter="#{tipoUsuarioConverter}">
                                 <f:selectItems value="#{tipoUsuarioBean.tipoUsuarios}"
                                                var="umTipo"
                                                itemLabel="#{umTipo.descricao}"/>                                
