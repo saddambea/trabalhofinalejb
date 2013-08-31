@@ -35,4 +35,8 @@ public abstract class DAOBase<T> {
         return dao.listarTodos(clazz);
     }
     
+    public void excluir(T obj) throws Exception{
+        dao.excluir(obj);
+    }
+    
 }
