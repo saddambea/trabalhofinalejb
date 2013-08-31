@@ -6,13 +6,18 @@ package control;
 
 import controle.UsuarioControle;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import modelo.Usuario;
 
-@FacesConverter(forClass = Usuario.class)
+@FacesConverter(value = "usuarioConverter")
+@ManagedBean
+@RequestScoped
+
 public class UsuarioConverter implements Converter {
     @EJB
     private UsuarioControle usuariocontrole;

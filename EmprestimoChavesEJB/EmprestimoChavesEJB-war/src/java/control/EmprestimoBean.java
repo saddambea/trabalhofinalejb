@@ -4,12 +4,14 @@
  */
 package control;
 
-import dao.JPADAOXX;
+import controle.EmprestimoControle;
+import controle.UsuarioControle;
 import javax.faces.bean.ManagedBean;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -29,6 +31,10 @@ public class EmprestimoBean {
     /**
      * Creates a new instance of EmprestimoBean
      */
+    @EJB
+    private UsuarioControle usuariocontrole;
+    @EJB
+    private EmprestimoControle emprestimocontrole;
     private Emprestimo emprestimo;
     private boolean autenticar;
     private static List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
@@ -125,16 +131,10 @@ public class EmprestimoBean {
       
       Query cons;        
       
-      cons = null;//JPADAO.getInstancia().getEM().createQuery("Select a.chave From Autorizacao a where " +
-                  //                                     " a.usuario.codigo = :pcodigo and (a.dataFim is null or a.dataFim > :pdata) "
-                  //                                   + " and not exists (Select e From Emprestimo e Where e.chave = a.chave and e.dataDevolucao is null) ");      
-      cons.setParameter("pcodigo", oUsuario.getCodigo());
-      cons.setParameter("pdata", new Date(System.currentTimeMillis()));
-      
-      this.chaves = cons.getResultList();
+      this.chaves = emprestimocontrole.buscarChaves(oUsuario);
       this.chavesModel = new ChaveDataModel(chaves);
       this.autenticar = !this.chaves.isEmpty();
-      this.usuarioBusca = FuncoesGeraisBean.getUsuarioByCodigo(usuario.getCodigo());
+      this.usuarioBusca = usuariocontrole.getUsuarioByCodigo(usuario.getCodigo());
       return "emprestimoconsulta";
     }
     
@@ -142,7 +142,7 @@ public class EmprestimoBean {
         Emprestimo emp;
         this.salvo=false;
         
-        Usuario usuarioBusca = FuncoesGeraisBean.getUsuarioByCodigo(this.usuario.getCodigo());        
+        Usuario usuarioBusca = usuariocontrole.getUsuarioByCodigo(this.usuario.getCodigo());        
         
         if (!AutenticacaoAutorizacaoBean.getUsuarioAutenticacao(this.usuario.getCodigo(), senha)){
           FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,  "Usuário/Senha inválido","Não foi possível fazer login com o usuário/senha informados");

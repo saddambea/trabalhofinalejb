@@ -114,6 +114,28 @@ public class TipoUsuario {
     public void setPermConsEmpr(boolean permConsEmpr) {
         this.permConsEmpr = permConsEmpr;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TipoUsuario other = (TipoUsuario) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
     
     
     

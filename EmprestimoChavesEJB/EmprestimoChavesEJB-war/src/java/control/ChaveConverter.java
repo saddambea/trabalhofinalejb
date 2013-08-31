@@ -12,11 +12,13 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+
 import modelo.Chave;
 
 @FacesConverter(value = "chaveConverter")
 @ManagedBean
 @RequestScoped
+
 public class ChaveConverter implements Converter {
     @EJB
     ChaveControle chavecontrole;

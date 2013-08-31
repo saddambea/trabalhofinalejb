@@ -51,9 +51,8 @@ public class UsuarioBean {
     public UsuarioBean() {
     }
 
-    public List<Usuario> getUsuarios() {
-        //usuarios = JPADAOXX.getInstancia().listarTodos(Usuario.class);
-        return usuarios;
+    public List<Usuario> getUsuarios() {        
+        return usuariocontrole.getUsuarios();
     }
 
     public void setUsuarios(List<Usuario> usuarios) {
