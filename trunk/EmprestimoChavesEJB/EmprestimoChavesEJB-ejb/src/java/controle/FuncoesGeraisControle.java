@@ -58,7 +58,6 @@ public class FuncoesGeraisControle{
     
     public Usuario getUsuarioByCodigo(Integer codigo){
         try {
-            //return conexao.buscarSimples(Usuario.class, "codigo", codigo);
             return usuarioDAO.buscarSimples(codigo);
         } catch (Exception e) {
             return null;
