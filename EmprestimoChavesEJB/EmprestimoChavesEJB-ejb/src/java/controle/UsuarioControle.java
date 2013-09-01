@@ -31,7 +31,6 @@ public class UsuarioControle{
     
 
     public List<Usuario> getUsuarios() throws Exception {
-        //return conexao.listarTodos(Usuario.class);
         return usuarioDAO.listarTodos();
     }
 
@@ -57,21 +56,18 @@ public class UsuarioControle{
     }
 
     public Usuario buscarUsuario(int idUsuario) throws Exception{
-        //return conexao.procurar(Usuario.class, idUsuario);
         return usuarioDAO.carregar(idUsuario);
     }
 
    
     
     public Usuario getUsuarioByCodigo(int codigo){        
-        //return conexao.buscarSimples(Usuario.class, "codigo", codigo);
         return usuarioDAO.buscarSimples(codigo);
     }
 
     public List<Autorizacao> getAutorizacoes(Usuario usuario) throws Exception{
        List<Autorizacao> lista = new ArrayList<Autorizacao>();
        List<Autorizacao> todas =  new ArrayList<Autorizacao>();
-       //todas = conexao.listarTodos(Autorizacao.class);
        todas = autorizacaoDAO.listarTodos();
        for(Autorizacao aut : todas){
            if (aut.getUsuario() != null){

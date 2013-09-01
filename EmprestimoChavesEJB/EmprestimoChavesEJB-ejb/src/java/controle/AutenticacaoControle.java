@@ -92,7 +92,6 @@ public class AutenticacaoControle{
         
                                              
         try {
-            //Usuario user = conexao.buscarSimples(Usuario.class, "codigo", senha);            
             Usuario user = usuarioDAO.buscarSimples(codigo);
             
             if(user !=null)
