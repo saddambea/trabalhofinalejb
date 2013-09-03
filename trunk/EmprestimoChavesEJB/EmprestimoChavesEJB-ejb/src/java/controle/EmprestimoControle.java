@@ -97,7 +97,7 @@ public class EmprestimoControle {
       
     }
 
-    public boolean emprestar(Usuario oBalconista, Usuario usuario, Integer senha, List<Chave> chaves) {
+    public boolean emprestar(Usuario oBalconista, Usuario usuario, Integer senha, List<Chave> chaves) throws Exception{
         Emprestimo emp;
         String[] fields = {"codigo"};
         String[] values = {String.valueOf(senha)};
@@ -123,9 +123,10 @@ public class EmprestimoControle {
                     } catch (Exception e) {
                     }
                         
-                    emp.setUsuario(usuario);
-                    emp.setChave(cha);
+                    emp.setUsuario(usuarioDAO.buscarSimples(usuario.getCodigo()));
+                    emp.setChave(chavesDAO.carregar(cha.getId()));
                     emp.setDataEmprestimo(new Date(System.currentTimeMillis()));
+                    emprestimoDAO.salvar(emp);
                 }
 
             }

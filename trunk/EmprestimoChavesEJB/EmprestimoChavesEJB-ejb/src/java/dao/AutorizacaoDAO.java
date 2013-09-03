@@ -24,7 +24,7 @@ public class AutorizacaoDAO extends DAOBase<Autorizacao> {
     public List<Chave> listarChavesUsuario(Usuario usuario, Date data) {
         
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("pcodigo", usuario.getId());
+        params.put("pcodigo", usuario.getCodigo());
         params.put("pdata", data);
         
         return dao.listarNamedQuery("autorizacao.chavesusuario", params);

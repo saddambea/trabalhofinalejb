@@ -123,8 +123,7 @@ public class EmprestimoBean {
     public String buscarChaves(Usuario oUsuario) {
         this.salvo = false;
 
-        Query cons;
-
+        usuario = usuariocontrole.getUsuarioByCodigo(oUsuario.getCodigo());
         this.chaves = emprestimocontrole.buscarChaves(usuario);
         this.chavesModel = new ChaveDataModel(chaves);
         this.autenticar = !this.chaves.isEmpty();
@@ -144,8 +143,10 @@ public class EmprestimoBean {
 
             return "emprestimoconsulta";
         } else {
-            if (chavesselecionadas.size() > 0) {
+            if (chavesselecionadas.size() > 0) {                
+              try {
                 if (emprestimocontrole.emprestar(oBalconista, usuario, senha, chavesselecionadas))  {
+                    
                     this.mensagem = "";
                     for (Chave cha : chavesselecionadas) {
                         if (!this.mensagem.isEmpty()) {
@@ -156,6 +157,10 @@ public class EmprestimoBean {
                         this.salvo = true;
                     }
                 }
+                
+              } catch (Exception e) {
+                  
+              }
             }
             this.autenticar = false;
             return "emprestimoconsulta";
