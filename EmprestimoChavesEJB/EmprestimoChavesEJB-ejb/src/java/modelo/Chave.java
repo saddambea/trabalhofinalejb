@@ -4,11 +4,15 @@
  */
 package modelo;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -18,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="chave")
-public class Chave {
+public class Chave implements Serializable{
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
@@ -29,6 +33,7 @@ public class Chave {
     
     @Column(name="restrito")
     private boolean restrito;    
+    
     
     public int getId() {
         return id;
@@ -52,13 +57,6 @@ public class Chave {
 
     public void setRestrito(boolean restrito) {
         this.restrito = restrito;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + this.id;
-        return hash;
     }
 
     @Override

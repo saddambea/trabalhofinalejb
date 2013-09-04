@@ -4,6 +4,7 @@
  */
 package modelo;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Usuario")
-public class Usuario {
+public class Usuario implements Serializable{
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
@@ -103,13 +104,6 @@ public class Usuario {
     }
 
     public Usuario() {
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + this.id;
-        return hash;
     }
 
     @Override
