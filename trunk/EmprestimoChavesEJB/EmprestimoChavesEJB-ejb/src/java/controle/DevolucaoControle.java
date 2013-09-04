@@ -86,9 +86,11 @@ public class DevolucaoControle{
     }
     
     public boolean devolver(Emprestimo oEmprestimo){
-       oEmprestimo.setDataDevolucao(new Date(System.currentTimeMillis()));
         try {
-            emprestimoDAO.salvar(oEmprestimo);
+            Emprestimo emprestimo = devolucaoDAO.carregar(oEmprestimo.getId());
+            emprestimo.setDataDevolucao(new Date(System.currentTimeMillis()));
+            //emprestimo.setChave(chaveDAO.carregar(emprestimo.getChave().getId()));
+            devolucaoDAO.salvar(emprestimo);
             return true;
         } catch (Exception e) {
             return false;

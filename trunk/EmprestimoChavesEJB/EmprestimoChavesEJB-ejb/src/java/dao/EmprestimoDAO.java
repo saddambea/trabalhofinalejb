@@ -28,12 +28,14 @@ public class EmprestimoDAO extends DAOBase<Emprestimo> {
     }
     
     public List<Emprestimo> listarTodosAtivos() throws Exception {
-        return super.listarTodos(); //To change body of generated methods, choose Tools | Templates.
+        Map<String, Object> params = new HashMap<String, Object>();
+        return dao.listarNamedQuery("emprestimos.listarativos", params);
+
     }
     
     public List<Chave> listarChavesAtivas() throws Exception {
           Map<String, Object> params = new HashMap<String, Object>();
-        return dao.listarNamedQuery("emprestimos.listarativos", params);
+        return dao.listarNamedQuery("emprestimos.listarchave", params);
     }
     
     

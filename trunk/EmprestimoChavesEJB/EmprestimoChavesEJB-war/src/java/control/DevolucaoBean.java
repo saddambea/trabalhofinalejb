@@ -5,6 +5,7 @@
 package control;
 
 
+import controle.DevolucaoControle;
 import controle.EmprestimoControle;
 import javax.faces.bean.ManagedBean;
 
@@ -13,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
-import javax.persistence.Query;
 import modelo.Emprestimo;
 import modelo.Usuario;
 import modelo.Chave;
@@ -44,6 +44,9 @@ public class DevolucaoBean {
     
     @EJB
     private EmprestimoControle emprestimocontrole;
+    
+    @EJB
+    private DevolucaoControle devolucaocontrole;
     
     
     public boolean isSalvo() {
@@ -91,36 +94,40 @@ public class DevolucaoBean {
     }
 
     public String editar(Emprestimo oEmprestimo) {
-        //this.emprestimo = emprestimocontrole.   
-        //this.emprestimo = JPADAO.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
+        this.emprestimo = emprestimocontrole.buscarEmprestimo(oEmprestimo.getId());
         salvo = false;
         return "emprestimocad";
     }
 
     public String excluir(Emprestimo oEmprestimo) {
-        emprestimos.remove(oEmprestimo);
+        try {
+            emprestimocontrole.excluir(oEmprestimo);
+        } catch (Exception e) {
+            
+        }
+        
         return "emprestimolist";
     }
 
     public String excluir() {        
-        //JPADAO.getInstancia().excluir(emprestimo);
+        emprestimocontrole.excluir(emprestimo);
         
         return "devolucaolist";
     }
 
     
     public String devolucao(){                
-        Query cons = null;//= JPADAO.getInstancia().getEM().createQuery("Select e from Emprestimo e where e.dataDevolucao is null");
+        
         this.salvo = false;
-        emprestimos = cons.getResultList();
+        emprestimos = emprestimocontrole.getEmprestimosAtivos();
         return "devolucaoconsulta";
     }
     
-    public String devolver(Emprestimo oEmprestimo){
-      oEmprestimo.setDataDevolucao(new Date(System.currentTimeMillis()));
-      //emprestimo = JPADAO.getInstancia().procurar(Emprestimo.class, oEmprestimo.getId());
+    public String devolver(Emprestimo oEmprestimo){      
         try {
-            //JPADAO.getInstancia().salvar(oEmprestimo);
+            emprestimo = emprestimocontrole.buscarEmprestimo(oEmprestimo.getId());
+            devolucaocontrole.devolver(emprestimo);
+            
             this.salvo = true;
         } catch (Exception e) {
             this.salvo = false;
@@ -130,7 +137,7 @@ public class DevolucaoBean {
     }
     public String salvar() {
         System.out.println("Devolução salva: " + emprestimo.getId());
-        //JPADAO.getInstancia().salvar(emprestimo);
+        emprestimocontrole.salvar(emprestimo);
         this.salvo=true;
         
         return "devolucaocad";
@@ -139,15 +146,6 @@ public class DevolucaoBean {
     public String cancelar() {
         this.salvo = false;
         return "devolucaoconsulta";
-    }
-
-    public static Emprestimo buscarEmprestimo(int idEmprestimo) {
-        for (Emprestimo cat : emprestimos) {
-            if (cat.getId() == idEmprestimo) {
-                return cat;
-            }
-        }
-        return null;
     }
 
     public String emprestimo(){

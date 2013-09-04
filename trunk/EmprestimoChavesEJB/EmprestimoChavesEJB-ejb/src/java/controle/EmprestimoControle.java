@@ -57,15 +57,13 @@ public class EmprestimoControle {
     
     
     public List<Emprestimo> getEmprestimosAtivos(){
-       List<Emprestimo> emps = getEmprestimos();
-       List<Emprestimo> empativos = new ArrayList<Emprestimo>();
-       for(Emprestimo e : emps){
-           if(e.getDataDevolucao() == null){
-               empativos.add(e);
-           }
+        try {
+            return emprestimoDAO.listarTodosAtivos();
+        } catch (Exception e) {
+            return null;
+        }
+       
        }
-       return empativos;
-    }
 
     public List<Chave> getChaves() {
         try {
@@ -145,6 +143,7 @@ public class EmprestimoControle {
 
     public boolean salvar(Emprestimo oEmprestimo) {
         try {
+            
             emprestimoDAO.salvar(oEmprestimo);
             return true;
 

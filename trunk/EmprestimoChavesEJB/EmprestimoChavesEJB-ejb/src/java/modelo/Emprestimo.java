@@ -4,6 +4,7 @@
  */
 package modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,7 +44,7 @@ import javax.persistence.Transient;
 @Entity
 
 @Table(name="emprestimo")
-public class Emprestimo {
+public class Emprestimo implements Serializable{
    @Id
    @Column(name="id")
    @GeneratedValue(strategy = GenerationType.IDENTITY)    
@@ -68,9 +69,6 @@ public class Emprestimo {
    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
    @Column(name="dataDevolucao")
    private Date dataDevolucao;
-   
-   @Transient
-   private boolean selecionar;
 
     public int getId() {
         return id;
@@ -121,16 +119,28 @@ public class Emprestimo {
         this.dataDevolucao = dataDevolucao;
     }
 
-    public boolean isSelecionar() {
-        return selecionar;
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
     }
 
-    public void setSelecionar(boolean selecionar) {
-        this.selecionar = selecionar;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Emprestimo other = (Emprestimo) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
-    
-    
+
    
-   
+    
     
 }
