@@ -120,8 +120,15 @@ public class Usuario implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + this.id;
+        return hash;
+    }
     
-    
+       
     
     
     

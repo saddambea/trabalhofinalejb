@@ -49,7 +49,7 @@ public class AutorizacaoControle{
     }
 
     
-    public boolean inserir(Autorizacao autorizacao){
+    public boolean salvar(Autorizacao autorizacao){
         try {
          autDAO.salvar(autorizacao);
          return true;

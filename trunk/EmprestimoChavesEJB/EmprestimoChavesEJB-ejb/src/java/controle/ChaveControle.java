@@ -51,9 +51,9 @@ public class ChaveControle{
         
     }
 
-    public boolean salvar(Chave chave) throws Exception {
+    public boolean salvar(Chave oChave) throws Exception {
         try {
-            chaveDAO.salvar(chave);
+            chaveDAO.salvar(oChave);
             return true;
         } catch (Exception e) {
             return false;

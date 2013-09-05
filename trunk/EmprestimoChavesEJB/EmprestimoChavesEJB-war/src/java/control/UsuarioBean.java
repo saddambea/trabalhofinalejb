@@ -5,7 +5,6 @@
 package control;
 
 import controle.UsuarioControle;
-import dao.JPADAO;
 import javax.faces.bean.ManagedBean;
 import modelo.Usuario;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.Query;
 import modelo.Autorizacao;
 
 /**
@@ -75,9 +73,21 @@ public class UsuarioBean {
 
     public String editar(Usuario oUsuario) throws Exception{     
         
-        this.usuario = usuariocontrole.buscarUsuario(oUsuario.getId());
+        this.usuario = oUsuario;
         salvo = false;
         return "usuariocad";
+    }
+
+
+     public String excluir() {
+         try {
+             usuariocontrole.excluir(usuariocontrole.buscarUsuario(usuario.getCodigo()));
+         } catch (Exception e) {
+             
+         }
+          
+          
+        return "usuariolist";
     }
 
     public String excluir(Usuario oUsuario) {

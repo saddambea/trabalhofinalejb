@@ -68,14 +68,18 @@ public class ChaveBean {
     }
 
     public String editar(Chave oChave) {
-        this.chave = oChave;
+        try {
+            this.chave = chavecontrole.getChave(oChave.getId());
+        } catch (Exception e) {
+            this.chave = new Chave();
+        }
+        
         salvo = false;
         return "chavecad";
     }
 
-    public String excluir(Chave oChave) throws Exception{
-        //JPADAO.getInstancia().excluir(oChave);
-        chavecontrole.excluir(oChave);
+    public String excluir(Chave oChave) throws Exception{        
+        chavecontrole.excluir(chavecontrole.getChave(oChave.getId()));
         return "chavelist";
     }
 
@@ -85,8 +89,8 @@ public class ChaveBean {
     }
 
     public String salvar() throws Exception{
-        System.out.println("Chave salvo: " + chave.getSigla());
-        chavecontrole.salvar(chave);
+        System.out.println("Chave salvo: " + this.chave.getSigla());
+        chavecontrole.salvar(this.chave);
         salvo = true;
         return "chavelist";
     }
@@ -96,13 +100,13 @@ public class ChaveBean {
         return "principal";
     }
 
-    public static Chave buscarChave(int idChave) {
-        for (Chave cat : chaves) {
-            if (cat.getId() == idChave) {
-                return cat;
-            } 
+    public Chave buscarChave(int idChave) {
+        try {
+            return chavecontrole.getChave(idChave);
+        } catch (Exception e) {
+            return new Chave();
         }
-        return null;
+        
     }
 
     

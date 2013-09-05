@@ -64,7 +64,7 @@ public class Autorizacao implements Serializable{
     private Date dataInicio;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(name="dataFim")
+    @Column(name="dataFim",nullable = true)
     private Date dataFim;  
 
     public int getId() {
@@ -106,6 +106,29 @@ public class Autorizacao implements Serializable{
     public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Autorizacao other = (Autorizacao) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + this.id;
+        return hash;
+    }
+
     
     
     

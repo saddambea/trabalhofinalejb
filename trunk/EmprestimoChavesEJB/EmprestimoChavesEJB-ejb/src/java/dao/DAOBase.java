@@ -19,9 +19,7 @@ public abstract class DAOBase<T> {
     }
     
     public void salvar(T obj) throws Exception {
-        
         dao.salvar(obj);
-        
     }
     
     public T carregar(Integer id) throws Exception {
