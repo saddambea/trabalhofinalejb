@@ -33,6 +33,7 @@ public class JPADAO {
     
     
     public void salvar(Object entidade) {        
+        entidade = em.merge(entidade);
         em.persist(entidade);
         em.flush(); // forçado para retornar o novo id
     }

@@ -31,11 +31,8 @@ public class AutorizacaoBean {
     private Usuario usuario;
     private Autorizacao autorizacao = new Autorizacao();
     private Chave chave;
-    
     private List<Autorizacao> autorizacoes = new ArrayList<Autorizacao>();
-    private static int autorizacaoId = 1;
     private boolean salvo = false;
-    private String mensagem;
     
 
     public boolean isSalvo() {
@@ -77,7 +74,7 @@ public class AutorizacaoBean {
     
 
     public String editar(Autorizacao oAutorizacao) {
-        this.autorizacao = autorizacaocontrole.getAutorizacao(oAutorizacao.getId());                
+        this.autorizacao = oAutorizacao;
         salvo = false;
         return "autorizacaocad";
     }
@@ -92,7 +89,7 @@ public class AutorizacaoBean {
         System.out.println("Autorização salva: " + autorizacao.toString());
         try {        
             
-            autorizacaocontrole.inserir(autorizacao);
+            autorizacaocontrole.salvar(autorizacao);
             this.salvo = true;
             
         } catch (Exception e) {

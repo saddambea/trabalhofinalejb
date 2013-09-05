@@ -18,7 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.Transient;
 
 
 @NamedQueries(
@@ -121,9 +120,11 @@ public class Emprestimo implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 5;
+        hash = 41 * hash + this.id;
         return hash;
     }
+
 
     @Override
     public boolean equals(Object obj) {

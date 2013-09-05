@@ -5,14 +5,11 @@
 package modelo;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -59,6 +56,14 @@ public class Chave implements Serializable{
         this.restrito = restrito;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + this.id;
+        return hash;
+    }
+
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
