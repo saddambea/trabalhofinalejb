@@ -64,7 +64,23 @@ public class UsuarioControle{
     public Usuario getUsuarioByCodigo(int codigo){        
         return usuarioDAO.buscarSimples(codigo);
     }
-
+    
+    public Usuario getUsuarioAdministrador(){
+        try {
+            List<Usuario> lista = usuarioDAO.listarTodos();
+            for(Usuario usu : lista){
+                if(usu.getTipo().getPermUsuario() ||
+                   usu.getTipo().getDescricao().equals("Administrador")){
+                    return usu;
+                }
+            }
+            
+        } catch (Exception e) {
+            return null;
+        }
+        
+        return null;
+    }
     public List<Autorizacao> getAutorizacoes(Usuario usuario) throws Exception{
        List<Autorizacao> lista = new ArrayList<Autorizacao>();
        List<Autorizacao> todas =  new ArrayList<Autorizacao>();

@@ -21,6 +21,7 @@ import javax.ejb.TimerService;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import modelo.Emprestimo;
+import modelo.Usuario;
 
 /**
  *
@@ -46,6 +47,9 @@ public class TimerSingleton {
     
     @EJB
     private FuncoesGeraisControle funcoesgeraiscontrole;
+    
+    @EJB
+    private UsuarioControle usuariocontrole;
       
     @PostConstruct
     public void iniciarTimer() {
@@ -76,7 +80,16 @@ public class TimerSingleton {
                      
                          
         }
-        System.out.println("Chaves emprestadas: " + corpo);
-        //enviaremail.enviarEmail("daniellenzi@gmail.com", "Chaves emprestadas", corpo);        
+        
+        if(!corpo.isEmpty()){
+          Usuario usuadm = usuariocontrole.getUsuarioAdministrador();   
+          if (usuadm !=null){
+              enviaremail.enviarEmail(usuadm.getEmail(), "Chaves emprestadas", corpo);        
+              System.out.println("E-mail enviado para o usuario:" + usuadm.getEmail() + ". Chaves emprestadas: " + corpo);
+          }
+              
+            
+        }
+        
     }
 }
