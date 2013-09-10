@@ -66,9 +66,7 @@ public class TimerSingleton {
     @Schedules({
         @Schedule(hour="12"),
         @Schedule(hour="18"),
-        @Schedule(hour="22", minute = "30"),
-            @Schedule(hour="*", minute = "*")
-            
+        @Schedule(hour="22", minute = "30")
     })
     public void executaTimer(Timer timer) throws Exception {
         String corpo = "";
