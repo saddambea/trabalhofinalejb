@@ -9,9 +9,13 @@ import dao.UsuarioDAO;
 import java.util.ArrayList;
 import modelo.Usuario;
 import java.util.List;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESedeKeySpec;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import modelo.Autorizacao;
+import static simetrico.CifraDESede.resumo_chave;
 
 
 @Stateful
@@ -44,8 +48,24 @@ public class UsuarioControle{
         
     }
 
+    public SecretKey getCriptografia(String cripto){
+            SecretKey secretKey = null;
+            try{
+                byte key[] = resumo_chave(cripto);
+                DESedeKeySpec desKeySpec = new DESedeKeySpec(key);
+                SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
+                secretKey = keyFactory.generateSecret(desKeySpec); 
+            }catch(Exception e){
+                System.out.println("Lixo");
+            }
+            
+            
+            return secretKey;
+    }
+    
     public boolean salvar(Usuario usuario) {
         try {
+            usuario.setEmail(new String(getCriptografia(usuario.getEmail()).getEncoded()));
             usuarioDAO.salvar(usuario);
             return true;
         } catch (Exception e) {
