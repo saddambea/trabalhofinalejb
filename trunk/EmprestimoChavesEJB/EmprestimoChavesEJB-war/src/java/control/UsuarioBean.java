@@ -8,7 +8,10 @@ import controle.UsuarioControle;
 import javax.faces.bean.ManagedBean;
 import modelo.Usuario;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
@@ -148,6 +151,34 @@ public class UsuarioBean {
           return new Usuario();                   
 
             
+        }
+        
+    }
+    
+    public String getDecriptografa(String cripto){
+        SecretKey secretKey = null;
+        secretKey =  usuariocontrole.getCriptografia(cripto);
+        
+        try{
+           
+            Cipher desCipher = Cipher.getInstance("DESede/ECB/PKCS5Padding");
+            desCipher.init(Cipher.ENCRYPT_MODE, secretKey);// modo encriptação
+            byte[] encrypted = desCipher.doFinal(cripto.getBytes());
+
+            
+            /*System.out.println("texto cifrado (string): " + new String(encrypted));
+            System.out.println("texto cifrado (array): " + Arrays.toString(encrypted));*/
+
+             //altera o modo do cifrador para DECRIPTAR
+            desCipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] decrypted = desCipher.doFinal(encrypted);
+            return new String(decrypted);
+
+
+            
+        }catch(Exception e){
+            System.out.println("Não foi");
+            return null;
         }
         
     }

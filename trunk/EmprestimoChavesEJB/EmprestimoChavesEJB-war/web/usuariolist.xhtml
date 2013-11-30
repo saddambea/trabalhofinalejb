@@ -24,7 +24,7 @@
                                 <h:outputText value="#{umUsuario.nome}"/>
                             </p:column>
                             <p:column headerText="#{i18n['listausuario.dataTable.column.email.headerText']}">
-                                <h:outputText value="#{umUsuario.email}"/>
+                                <h:outputText value="#{usuarioBean.getDecriptografa(umUsuario.email)}"/>
                             </p:column>
                             
                             <p:column headerText="#{i18n['listausuario.dataTable.column.tipo.headerText']}">
