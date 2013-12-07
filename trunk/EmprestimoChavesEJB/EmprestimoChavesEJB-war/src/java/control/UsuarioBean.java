@@ -156,11 +156,7 @@ public class UsuarioBean {
         
     }
     
-    public String getDecriptografa(byte[] cripto){
-       criptografia.Criptografia descript = new Criptografia();
-       return descript.getDecriptografa(cripto);
-    }
-    
+ 
     
     
 }
