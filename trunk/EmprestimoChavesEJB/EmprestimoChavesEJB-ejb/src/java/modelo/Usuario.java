@@ -112,13 +112,8 @@ public class Usuario implements Serializable{
     
     }
 
-    public String getEmailstr() throws InvalidKeyException {
-        if (email != null){
-            Criptografia descript = new Criptografia();
-            DESedeKeySpec desKeySpec = new DESedeKeySpec(email);
-            return descript.getDecriptografa(email);
-        }else 
-      return "";   
+    public String getEmailstr(){ 
+      return emailstr;   
     }
     
 
