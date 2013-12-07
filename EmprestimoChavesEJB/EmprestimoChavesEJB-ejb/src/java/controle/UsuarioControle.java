@@ -6,9 +6,12 @@ package controle;
 
 import dao.AutorizacaoDAO;
 import dao.UsuarioDAO;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.util.ArrayList;
 import modelo.Usuario;
 import java.util.List;
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
@@ -46,6 +49,33 @@ public class UsuarioControle{
             return false;
         }
         
+    }
+    
+    public byte[] getCriptografiaPublicaPrivada(){
+         try{
+            KeyPairGenerator gerador = KeyPairGenerator.getInstance("RSA");  
+            gerador.initialize(1024);  
+            KeyPair chaves = gerador.generateKeyPair();  
+
+            // Cria uma implementação do RSA  
+            Cipher cifra = Cipher.getInstance("RSA");  
+
+            //Inicializa o algoritmo para criptografiar a mensagem com a chave pública  
+            cifra.init(Cipher.ENCRYPT_MODE,chaves.getPublic());  
+
+            // Criptgrafa o texto inteiro  
+            byte[] mensagemCifrada = cifra.doFinal("teste".getBytes());  
+
+            // Inicializa o algoritmo para decriptografar com a chave privada
+            cifra.init(Cipher.DECRYPT_MODE,chaves.getPrivate());  
+
+            // Decifra a mensagem
+            byte[] mensagemOriginal = cifra.doFinal(mensagemCifrada);
+            return mensagemOriginal;
+         }catch(Exception e){
+             System.out.println("Não foi");
+             return null;
+         }         
     }
 
     public SecretKey getCriptografia(String cripto){
