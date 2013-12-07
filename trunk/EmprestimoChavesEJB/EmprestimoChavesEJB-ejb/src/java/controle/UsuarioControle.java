@@ -4,6 +4,7 @@
  */
 package controle;
 
+import criptografia.Criptografia;
 import dao.AutorizacaoDAO;
 import dao.UsuarioDAO;
 import java.security.KeyPair;
@@ -51,51 +52,12 @@ public class UsuarioControle{
         
     }
     
-    public byte[] getCriptografiaPublicaPrivada(){
-         try{
-            KeyPairGenerator gerador = KeyPairGenerator.getInstance("RSA");  
-            gerador.initialize(1024);  
-            KeyPair chaves = gerador.generateKeyPair();  
 
-            // Cria uma implementação do RSA  
-            Cipher cifra = Cipher.getInstance("RSA");  
-
-            //Inicializa o algoritmo para criptografiar a mensagem com a chave pública  
-            cifra.init(Cipher.ENCRYPT_MODE,chaves.getPublic());  
-
-            // Criptgrafa o texto inteiro  
-            byte[] mensagemCifrada = cifra.doFinal("teste".getBytes());  
-
-            // Inicializa o algoritmo para decriptografar com a chave privada
-            cifra.init(Cipher.DECRYPT_MODE,chaves.getPrivate());  
-
-            // Decifra a mensagem
-            byte[] mensagemOriginal = cifra.doFinal(mensagemCifrada);
-            return mensagemOriginal;
-         }catch(Exception e){
-             System.out.println("Não foi");
-             return null;
-         }         
-    }
-
-    public SecretKey getCriptografia(String cripto){
-            SecretKey secretKey = null;
-            try{
-                byte key[] = resumo_chave(cripto);
-                DESedeKeySpec desKeySpec = new DESedeKeySpec(key);
-                SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
-                secretKey = keyFactory.generateSecret(desKeySpec); 
-            }catch(Exception e){
-                System.out.println("Lixo");
-            }
-            
-            
-            return secretKey;
-    }
     
     public boolean salvar(Usuario usuario) {
         try {
-            usuario.setEmail(new String(getCriptografia(usuario.getEmail()).getEncoded()));
+            Criptografia cript = new Criptografia();
+            usuario.setEmail(cript.getCriptografia(usuario.getEmailstr()));
             usuarioDAO.salvar(usuario);
             return true;
         } catch (Exception e) {

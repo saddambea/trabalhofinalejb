@@ -31,7 +31,7 @@
                             <p:message for="nome"/>         
                             
                             <h:outputText value="#{i18n['usuario.input.email.label']}"/>
-                            <p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true" 
+                            <p:inputText id="email" value="#{usuarioBean.usuario.emailstr }" required="true" 
                                          requiredMessage="#{i18n['usuario.input.email.requiredMessage']}"
                                          validatorMessage="#{i18n['usuario.input.email.validatormessage']}">
                                 <f:validateLength minimum="3" maximum="80"/>
