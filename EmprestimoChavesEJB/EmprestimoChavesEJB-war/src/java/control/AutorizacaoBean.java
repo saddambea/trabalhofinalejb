@@ -89,8 +89,15 @@ public class AutorizacaoBean {
         System.out.println("Autorização salva: " + autorizacao.toString());
         try {        
             
-            autorizacaocontrole.salvar(autorizacao);
-            this.salvo = true;
+            
+            if(autorizacaocontrole.getAssinaRSA() && autorizacaocontrole.getAssinaDSA()){
+              autorizacaocontrole.salvar(autorizacao);
+              this.salvo = true;  
+            } else {
+                System.exit(0);
+                this.salvo = false;
+            }
+            
             
         } catch (Exception e) {
             this.salvo = false;            
