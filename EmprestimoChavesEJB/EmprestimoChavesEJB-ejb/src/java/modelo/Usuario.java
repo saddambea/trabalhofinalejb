@@ -4,7 +4,10 @@
  */
 package modelo;
 
+import criptografia.Criptografia;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import javax.crypto.spec.DESedeKeySpec;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @NamedQueries(
                     @NamedQuery(name = "usuario.listarSimples",
@@ -37,7 +41,12 @@ public class Usuario implements Serializable{
     @Column(name="nome")
     private String nome;
     @Column(name="email")
-    private String email;
+    private byte[] email;
+    
+    @Transient
+    //@Column(name="emailstr")
+    private String emailstr;
+    
     @Column(name="senha")
     private int senha;
     
@@ -62,11 +71,11 @@ public class Usuario implements Serializable{
         this.nome = nome;
     }
 
-    public String getEmail() {
+    public byte[] getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(byte [] email) {
         this.email = email;
     }
 
@@ -94,7 +103,7 @@ public class Usuario implements Serializable{
         this.codigo = codigo;
     }
 
-    public Usuario(Integer codigo, String nome, String email, int senha, TipoUsuario tipo) {
+    public Usuario(Integer codigo, String nome, byte[] email, int senha, TipoUsuario tipo) {
         this.codigo = codigo;
         this.nome = nome;
         this.email = email;
@@ -103,6 +112,22 @@ public class Usuario implements Serializable{
     
     }
 
+    public String getEmailstr() throws InvalidKeyException {
+        if (email != null){
+            Criptografia descript = new Criptografia();
+            DESedeKeySpec desKeySpec = new DESedeKeySpec(email);
+            return descript.getDecriptografa(email);
+        }else 
+      return "";   
+    }
+    
+
+    public void setEmailstr(String emailstr) {
+        this.emailstr = emailstr;
+    }
+    
+    
+    
     public Usuario() {
     }
 

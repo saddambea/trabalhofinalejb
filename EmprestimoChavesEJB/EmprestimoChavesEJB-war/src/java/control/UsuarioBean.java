@@ -5,6 +5,7 @@
 package control;
 
 import controle.UsuarioControle;
+import criptografia.Criptografia;
 import javax.faces.bean.ManagedBean;
 import modelo.Usuario;
 import java.util.ArrayList;
@@ -155,32 +156,9 @@ public class UsuarioBean {
         
     }
     
-    public String getDecriptografa(String cripto){
-        SecretKey secretKey = null;
-        secretKey =  usuariocontrole.getCriptografia(cripto);
-        
-        try{
-           
-            Cipher desCipher = Cipher.getInstance("DESede/ECB/PKCS5Padding");
-            desCipher.init(Cipher.ENCRYPT_MODE, secretKey);// modo encriptação
-            byte[] encrypted = desCipher.doFinal(cripto.getBytes());
-
-            
-            /*System.out.println("texto cifrado (string): " + new String(encrypted));
-            System.out.println("texto cifrado (array): " + Arrays.toString(encrypted));*/
-
-             //altera o modo do cifrador para DECRIPTAR
-            desCipher.init(Cipher.DECRYPT_MODE, secretKey);
-            byte[] decrypted = desCipher.doFinal(encrypted);
-            return new String(decrypted);
-
-
-            
-        }catch(Exception e){
-            System.out.println("Não foi");
-            return null;
-        }
-        
+    public String getDecriptografa(byte[] cripto){
+       criptografia.Criptografia descript = new Criptografia();
+       return descript.getDecriptografa(cripto);
     }
     
     

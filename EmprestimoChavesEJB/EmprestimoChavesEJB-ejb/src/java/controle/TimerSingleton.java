@@ -82,7 +82,7 @@ public class TimerSingleton {
         if(!corpo.isEmpty()){
           Usuario usuadm = usuariocontrole.getUsuarioAdministrador();   
           if (usuadm !=null){
-              enviaremail.enviarEmail(usuadm.getEmail(), "Chaves emprestadas", corpo);        
+              enviaremail.enviarEmail(new String(usuadm.getEmail()), "Chaves emprestadas", corpo);        
               System.out.println("E-mail enviado para o usuario:" + usuadm.getEmail() + ". Chaves emprestadas: " + corpo);
           }
               

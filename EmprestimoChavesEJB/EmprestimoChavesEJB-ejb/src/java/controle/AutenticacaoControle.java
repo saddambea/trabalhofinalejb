@@ -4,6 +4,7 @@
  */
 package controle;
 
+import criptografia.Criptografia;
 import dao.AutenticacaoDAO;
 import dao.TipoUsuarioDAO;
 import dao.UsuarioDAO;
@@ -43,13 +44,14 @@ public class AutenticacaoControle{
             tipoUsuarioDAO.salvar(tipoU); 
             //Adicionar automaticamente usuarios
 
-            Usuario usuario =  new Usuario(111111, "Administrador", "administrador@adm.com.br", 111111, tipoA);
+            Criptografia cripto = new Criptografia();
+            Usuario usuario =  new Usuario(111111, "Administrador", cripto.getCriptografia("administrador@adm.com.br"), 111111, tipoA);
             usuarioDAO.salvar(usuario);
 
-            usuario =  new Usuario(222222, "Balconista", "balconista@furb.com.br", 222222, tipoB);
+            usuario =  new Usuario(222222, "Balconista", cripto.getCriptografia("balconista@furb.com.br"), 222222, tipoB);
             usuarioDAO.salvar(usuario);
 
-            usuario =  new Usuario(333333, "Usuario", "usuario@furb.com.br", 333333, tipoU);
+            usuario =  new Usuario(333333, "Usuario", cripto.getCriptografia("usuario@furb.com.br"), 333333, tipoU);
             usuarioDAO.salvar(usuario);
             
         }
