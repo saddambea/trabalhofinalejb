@@ -5,14 +5,10 @@
 package control;
 
 import controle.UsuarioControle;
-import criptografia.Criptografia;
 import javax.faces.bean.ManagedBean;
 import modelo.Usuario;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
