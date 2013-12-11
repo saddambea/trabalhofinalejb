@@ -4,11 +4,20 @@
  */
 package criptografia;
 
+import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
@@ -19,8 +28,24 @@ import static simetrico.CifraDESede.resumo_chave;
  * @author dflenzi
  */
 public class Criptografia {
-    private static String palavra_chave = "dados";    
+    private static final String palavra_chave = "dados";    
             
+    public byte[] getSecretKey(String _palavraChave) { 
+        SecretKey secretKey = null;
+        
+        if(_palavraChave.isEmpty())
+            _palavraChave = palavra_chave;
+                    
+        try{
+            byte key[] = resumo_chave(_palavraChave);
+            DESedeKeySpec desKeySpec = new DESedeKeySpec(key);
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
+            secretKey = keyFactory.generateSecret(desKeySpec);
+            return secretKey.getEncoded();
+        } catch(Exception e) { return null; }
+    }
+    
+    
     public byte[] getCriptografia(String cripto){
             SecretKey secretKey = null;
             try{
@@ -42,9 +67,6 @@ public class Criptografia {
                 System.out.println("Lixo");
                 return null;
             }
-            
-            
-            
     }
 
     public String getDecriptografa(byte []  encrypted){
@@ -68,7 +90,67 @@ public class Criptografia {
         }
     }
     
+     public KeyPair getChaves(){
+        KeyPair chaves = null;
+        try
+        {
+           KeyPairGenerator gerador = KeyPairGenerator.getInstance("RSA");  
+           gerador.initialize(1024);  
+           chaves = gerador.generateKeyPair();  
+        } catch(NoSuchAlgorithmException e) {}
+        return chaves;
+     }
     
+     public byte[] getCriptografadoRSA(PublicKey publica, byte[] conteudo ) {
+        Cipher cifra;  
+        try {
+            cifra = Cipher.getInstance("RSA");
+             //Inicializa o algoritmo para criptografiar a mensagem com a chave pública  
+            cifra.init(Cipher.ENCRYPT_MODE, publica);  
+             // Criptgrafa o texto inteiro  
+            byte[] mensagemCifrada = cifra.doFinal(conteudo);  
+            //retorna o conteudo criptografado com a chave publica
+            return mensagemCifrada;
+        
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchPaddingException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalBlockSizeException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+     }
+     
+     public byte[] getDeCriptografadoRSA(PrivateKey privada, byte[] criptografado) {
+        Cipher cifra;
+        try {
+            cifra = Cipher.getInstance("RSA");
+            cifra.init(Cipher.DECRYPT_MODE, privada);  
+            
+            byte[] mensagemOriginal = cifra.doFinal(criptografado);
+            
+            return mensagemOriginal;
+            
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchPaddingException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalBlockSizeException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadPaddingException ex) {
+            Logger.getLogger(Criptografia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+         return null;
+     }
+     
     public byte[] getCriptografiaPublicaPrivada(){
          try{
             KeyPairGenerator gerador = KeyPairGenerator.getInstance("RSA");  
@@ -158,6 +240,7 @@ public class Criptografia {
          //System.out.print("texto decifrado (string): " + new String(mensagemOriginal));       
          return mensagemOriginal;
     }
+
     
     
 }
