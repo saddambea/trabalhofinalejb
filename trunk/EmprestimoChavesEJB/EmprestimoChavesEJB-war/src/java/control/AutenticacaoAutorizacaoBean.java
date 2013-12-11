@@ -5,6 +5,11 @@
 package control;
 
 import controle.AutenticacaoControle;
+import criptografia.Criptografia;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.security.KeyPair;
+import java.security.PublicKey;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -40,10 +45,40 @@ public class AutenticacaoAutorizacaoBean {
                              FacesContext.getCurrentInstance().addMessage("login", msg);
         }
         else{
-          autorizado=true;
-          usuario = autenticacaocontrole.getUsuario(usuario.getCodigo(), usuario.getSenha());
-        }  
-        
+            autorizado = true;
+            usuario = autenticacaocontrole.getUsuario(usuario.getCodigo(), usuario.getSenha());
+                    
+            //ATIVIDADE 03
+            
+            //gravar as infos em arquivo
+            File arquivo;   
+            arquivo = new File("C:\\Temp\\ChaveExportada.txt"); 
+            FileOutputStream fos = new FileOutputStream(arquivo); 
+
+            //Fazer a criptografia da chave secreta 
+            Criptografia cripto = new Criptografia();
+            byte[] chaveSecreta = cripto.getSecretKey(String.valueOf(usuario.getSenha()));
+
+            fos.write("Chave secreta: ".getBytes());
+            fos.write(chaveSecreta);
+            //pegar o par de chaves
+            KeyPair chaves =  cripto.getChaves();
+
+            //cifrar a chavesecreta
+            byte[] criptografado;
+            criptografado = cripto.getCriptografadoRSA(chaves.getPublic(),chaveSecreta );
+
+            fos.write("\n\nCriptografado: ".getBytes());
+            fos.write(criptografado);
+
+            //decriptar
+            byte[] deCriptografado;
+            deCriptografado = cripto.getDeCriptografadoRSA(chaves.getPrivate(), criptografado );
+            fos.write("\n\nDECriptografado: ".getBytes());
+            fos.write(deCriptografado);    
+
+            fos.close();          
+        }          
     }
  
 // gets e sets    /*** Creates a new instance of AutenticacaoAutorizacaoBean*/
