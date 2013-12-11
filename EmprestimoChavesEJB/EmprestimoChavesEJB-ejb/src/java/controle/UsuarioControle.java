@@ -7,19 +7,12 @@ package controle;
 import criptografia.Criptografia;
 import dao.AutorizacaoDAO;
 import dao.UsuarioDAO;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.util.ArrayList;
 import modelo.Usuario;
 import java.util.List;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESedeKeySpec;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import modelo.Autorizacao;
-import static simetrico.CifraDESede.resumo_chave;
 
 
 @Stateful
@@ -49,10 +42,7 @@ public class UsuarioControle{
         } catch (Exception e) {
             return false;
         }
-        
     }
-    
-
     
     public boolean salvar(Usuario usuario) {
         try {
@@ -63,15 +53,11 @@ public class UsuarioControle{
         } catch (Exception e) {
             return false;
         }
-  
-        
     }
 
     public Usuario buscarUsuario(int idUsuario) throws Exception{
         return usuarioDAO.carregar(idUsuario);
     }
-
-   
     
     public Usuario getUsuarioByCodigo(int codigo){        
         return usuarioDAO.buscarSimples(codigo);
@@ -106,8 +92,5 @@ public class UsuarioControle{
        }
        return lista;
     }
-
-    
-    
-    
+   
 }
