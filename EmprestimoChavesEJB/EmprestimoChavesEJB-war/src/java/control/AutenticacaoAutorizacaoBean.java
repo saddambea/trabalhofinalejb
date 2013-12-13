@@ -9,7 +9,6 @@ import criptografia.Criptografia;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.KeyPair;
-import java.security.PublicKey;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

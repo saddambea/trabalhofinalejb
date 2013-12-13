@@ -4,10 +4,7 @@
  */
 package modelo;
 
-import criptografia.Criptografia;
 import java.io.Serializable;
-import java.security.InvalidKeyException;
-import javax.crypto.spec.DESedeKeySpec;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
